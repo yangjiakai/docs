@@ -65,6 +65,11 @@
       ]
     },
     {
+      "group": "Stucture",
+      "pages": ["structure/apps", "structure/package"]
+    },
+
+    {
       "group": "API Documentation",
       "pages": ["api-reference/introduction"]
     },
