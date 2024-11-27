@@ -68,7 +68,6 @@
       "group": "Stucture",
       "pages": ["structure/apps", "structure/package"]
     },
-
     {
       "group": "API Documentation",
       "pages": ["api-reference/introduction"]
@@ -79,6 +78,16 @@
         "api-reference/endpoint/get",
         "api-reference/endpoint/create",
         "api-reference/endpoint/delete"
+      ]
+    },
+    {
+      "group": "设计系统",
+      "pages": [
+        "design-system/colors",
+        "design-system/components",
+        "design-system/dark-mode",
+        "design-system/provider",
+        "design-system/typography"
       ]
     }
   ],

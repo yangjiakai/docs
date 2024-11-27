@@ -1,0 +1,16 @@
+---
+title: 排版
+description: 自定义字体及其使用方法
+---
+
+设计系统包包含一个预配置的字体文件，该文件已连接到所有应用程序。这个 `fonts.ts` 文件从 Google Fonts 导入默认字体 Geist，配置适当的子集和 CSS 变量名，然后导出一个你可以在应用程序中使用的 `className`。这个 CSS 变量随后被应用到共享的 Tailwind 配置中。
+
+默认情况下，`fonts.ts` 导出 `sans` 和 `mono` 字体，但你可以配置它以导出任意数量的字体，例如标题字体、正文字体、次要字体等。你也可以通过简单地替换字体名称来完全替换字体，如下所示：
+
+```ts packages/design-system/lib/fonts.ts
+import { Acme } from 'next/font/google';
+
+const sans = Acme({ subsets: ['latin'], variable: '--font-sans' });
+```
+
+你也可以本地加载字体。在 [Next.js 文档](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)中了解更多信息。
