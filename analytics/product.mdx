@@ -1,0 +1,58 @@
+---
+title: 产品分析
+description: 捕获产品事件和指标数据。
+icon: chart-mixed
+---
+
+next-forge 通过 PostHog 提供产品分析功能 — 这是一个集分析、测试、观察和部署新功能于一体的平台。
+
+## 使用方法
+
+要捕获产品事件，你可以使用 `@repo/analytics` 包中导出的 `analytics` 对象。
+
+首先，根据相应的环境导入 `analytics` 对象：
+
+```tsx
+// 服务端代码
+import { analytics } from '@repo/analytics/posthog/server';
+
+// 客户端代码
+import { analytics } from '@repo/analytics/posthog/client';
+```
+
+然后，你可以使用 `capture` 方法发送事件：
+
+```tsx
+analytics.capture({
+  event: 'Product Purchased',
+  distinctId: 'user_123',
+});
+```
+
+## Webhooks
+
+为了自动捕获身份验证和支付事件，我们将 PostHog 的 Node.js 服务端库与 Clerk 和 Stripe webhooks 结合使用，其工作流程如下：
+
+<Mermaid chart={`
+graph TD
+  A[用户应用操作] -->|触发| B[Clerk Webhook]
+  A -->|触发| E[Stripe Webhook]
+  A -->|客户端调用| PostHog
+  B -->|发送数据| C1[webhooks/clerk]
+  E -->|发送数据| C2[webhooks/stripe]
+
+  subgraph API
+    C1
+    C2
+  end
+
+  subgraph PostHog
+  end
+
+  C1 -->|Clerk 事件| PostHog
+  C2 -->|Stripe 事件| PostHog
+`} />
+
+## 反向代理
+
+我们还设置了 Next.js 代理，以便反向代理 PostHog 请求，这意味着您的客户端分析事件不会被广告拦截器阻止。

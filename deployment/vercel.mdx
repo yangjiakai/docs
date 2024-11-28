@@ -1,0 +1,47 @@
+---
+title: 部署到 Vercel
+description: 如何将 next-forge 部署到 Vercel
+icon: rocket-launch
+---
+
+import { Authors } from '/snippets/authors.mdx';
+
+<Authors data={[{
+  user: {
+    name: 'Hayden Bleasel',
+    id: 'haydenbleasel',
+  },
+  company: {
+    name: 'next-forge',
+    id: 'next-forge',
+  },
+}, {
+  user: {
+    name: 'Anthony Shew',
+    id: 'anthonysheww',
+  },
+  company: {
+    name: 'Vercel',
+    id: 'vercel',
+  },
+}]} />
+
+next-forge 设计为在 [Vercel](https://vercel.com) 上部署，但你也可以将其部署到任何支持 Next.js 的其他平台，比如 [Netlify](https://www.netlify.com/)。
+
+## 如何部署
+
+要部署 next-forge，你需要在 Vercel 上为 `app`、`api` 和 `web` 应用创建 3 个新项目。选择你的代码仓库后，将根目录选项更改为相应的应用目录，例如 `apps/app`。这应该会自动检测到 Next.js 的设置，包括构建命令和输出目录。
+
+然后，只需点击"部署"，Vercel 就会处理剩下的事情！
+
+想要看看实际效果吗？next-forge 已在 [Vercel Marketplace](https://vercel.com/templates/Next.js/next-forge) 上展示 - 试试部署 `app`：
+
+[![使用 Vercel 部署](https://vercel.com/button)](https://vercel.com/new/clone?build-command=turbo%20build&demo-description=Comprehensive%20Turborepo%20template%20for%20Next.js%20apps.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F2XyyD0ftVZoyj9fHabQB2G%2F8e5779630676c645214ddb3729d8ff96%2Fopengraph-image.png&demo-title=next-forge&demo-url=https%3A%2F%2Fwww.next-forge.com%2F&env=DATABASE_URL%2CRESEND_TOKEN%2CRESEND_FROM%2CCLERK_SECRET_KEY%2CCLERK_WEBHOOK_SECRET%2CSTRIPE_SECRET_KEY%2CSTRIPE_WEBHOOK_SECRET%2CBETTERSTACK_API_KEY%2CBETTERSTACK_URL%2CFLAGS_SECRET%2CARCJET_KEY%2CSVIX_TOKEN%2CNEXT_PUBLIC_CLERK_PUBLISHABLE_KEY%2CNEXT_PUBLIC_CLERK_SIGN_IN_URL%2CNEXT_PUBLIC_CLERK_SIGN_UP_URL%2CNEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL%2CNEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL%2CNEXT_PUBLIC_GA_MEASUREMENT_ID%2CNEXT_PUBLIC_POSTHOG_KEY%2CNEXT_PUBLIC_POSTHOG_HOST%2CNEXT_PUBLIC_APP_URL%2CNEXT_PUBLIC_WEB_URL%2CNEXT_PUBLIC_DOCS_URL&envLink=https%3A%2F%2Fdocs.next-forge.com%2Fsetup%23accounts&from=templates&project-name=next-forge&repository-name=next-forge&repository-url=https%3A%2F%2Fgithub.com%2Fhaydenbleasel%2Fnext-forge&root-directory=apps%2Fapp&skippable-integrations=1)
+
+## 环境变量
+
+如果你在 Vercel 上部署，我们建议使用团队环境变量功能。库使用的变量需要存在于所有包中，重复设置它们可能会很麻烦。了解更多关于 next-forge 中[环境变量](/env)的工作方式。
+
+## 集成
+
+我们还建议安装 [BetterStack](https://vercel.com/integrations/betterstack) 和 [Sentry](https://vercel.com/integrations/sentry) 集成。这将自动处理相关的[环境变量](/env)。

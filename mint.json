@@ -89,6 +89,48 @@
         "design-system/provider",
         "design-system/typography"
       ]
+    },
+    {
+      "group": "分析工具",
+      "icon": "chart-mixed",
+      "pages": [
+        "analytics/product",
+        "analytics/web"
+      ]
+    },
+    {
+      "group": "身份认证",
+      "icon": "shield-check",
+      "pages": [
+        "authentication/overview",
+        "authentication/authjs",
+        "authentication/better-auth"
+      ]
+    },
+    {
+      "group": "商业智能",
+      "icon": "chart-bar",
+      "pages": [
+        "bi/metabase"
+      ]
+    },
+    {
+      "group": "数据库",
+      "icon": "database",
+      "pages": [
+        "database/overview",
+        "database/drizzle",
+        "database/planetscale",
+        "database/prisma-postgres",
+        "database/turso"
+      ]
+    },
+    {
+      "group": "部署",
+      "icon": "rocket-launch",
+      "pages": [
+        "deployment/vercel"
+      ]
     }
   ],
   "footerSocials": {

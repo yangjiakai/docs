@@ -1,0 +1,73 @@
+---
+title: 数据库概述
+description: next-forge 中数据库和 ORM 的配置方式
+icon: database
+---
+
+next-forge 旨在提供一个健壮的、类型安全的数据库客户端，让你能够轻松地使用数据库，同时在整个应用程序中保持强类型。我们的目标是支持以下工具特性：
+
+- 提供声明式的数据库架构定义方式
+- 生成类型安全的数据库客户端
+- 处理数据库迁移
+- 提供强大的查询功能，并完全支持 TypeScript
+
+## 默认配置
+
+默认情况下，next-forge 使用 [Neon](https://neon.tech) 作为数据库提供商，使用 [Prisma](https://prisma.io) 作为 ORM。但是，如果你愿意，可以轻松切换到其他提供商，例如：
+
+- 你可以使用其他 ORM，如 [Drizzle](/database/drizzle)、Kysely 或任何其他类型安全的 ORM
+- 你可以使用其他数据库提供商，如 [PlanetScale](/database/planetscale)、[Prisma Postgres](/database/prisma-postgres)、Supabase 或任何其他 PostgreSQL/MySQL 提供商
+
+## 使用方法
+
+数据库和 ORM 配置位于 `@repo/database` 中。你可以在任何服务器端组件中导入此包，如下所示：
+
+```page.tsx {1,4}
+import { database } from '@repo/database';
+
+const Page = async () => {
+  const users = await database.user.findMany();
+
+  // 使用 users 数据！
+}
+```
+
+## 架构定义
+
+数据库架构在 `packages/database/prisma/schema.prisma` 中定义。此架构文件使用 Prisma 的架构定义语言来描述你的数据库表、关系和类型。
+
+### 添加新模型
+
+假设我们想添加一个名为 `Post` 的新模型来描述博客文章。博客内容将采用 JSON 格式，由类似 [Tiptap](https://tiptap.dev/) 的库生成。为此，我们需要在架构中添加以下内容：
+
+```prisma packages/database/prisma/schema.prisma {1-7}
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  content   Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+### 部署更改
+
+要部署架构更改，请运行以下命令：
+
+```sh Terminal
+pnpm migrate
+```
+
+这将运行以下命令：
+
+- `npx prisma format` 格式化架构文件
+- `npx prisma generate` 生成 Prisma 客户端
+- `npx prisma db push` 将架构更改推送到数据库
+
+## Prisma Studio
+
+next-forge 包含 Prisma Studio，这是一个数据库可视化编辑器。要启动它，请运行以下命令：
+
+```sh Terminal
+pnpm dev --filter studio
+```

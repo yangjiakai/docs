@@ -1,0 +1,106 @@
+---
+title: 切换到 PlanetScale
+description: 如何将数据库提供商从 Neon 切换到 PlanetScale
+icon: database
+---
+
+以下是如何从 Neon 切换到 [PlanetScale](https://planetscale.com) 的步骤。
+
+## 1. 在 PlanetScale 上创建新数据库
+
+在 PlanetScale 上创建数据库后，你将获得一个连接字符串。它看起来像这样：
+
+```
+mysql://<username>:<password>@<region>.aws.connect.psdb.cloud/<database>
+```
+
+请保存好这个连接字符串，你在下一步会需要它。
+
+## 2. 更新环境变量
+
+更新你的环境变量以使用新的 PlanetScale 连接字符串：
+
+```js apps/database/.env
+DATABASE_URL="mysql://<username>:<password>@<region>.aws.connect.psdb.cloud/<database>"
+```
+
+```js apps/app/.env.local
+DATABASE_URL="mysql://<username>:<password>@<region>.aws.connect.psdb.cloud/<database>"
+```
+
+以此类推。
+
+## 3. 在 `@repo/database` 中替换所需的依赖项
+
+卸载现有依赖项...
+
+```sh Terminal
+pnpm remove @neondatabase/serverless @prisma/adapter-neon ws @types/ws --filter database
+```
+
+...并安装新的依赖项：
+
+```sh Terminal
+pnpm add @planetscale/database @prisma/adapter-planetscale --filter database
+```
+
+## 4. 更新数据库连接代码
+
+更新数据库连接代码以使用新的 PlanetScale 适配器：
+
+```ts packages/database/index.ts {3-4, 17-18}
+import 'server-only';
+
+import { Client, connect } from '@planetscale/database';
+import { PrismaPlanetScale } from '@prisma/adapter-planetscale';
+import { PrismaClient } from '@prisma/client';
+import { env } from '@repo/env';
+
+declare global {
+  var cachedPrisma: PrismaClient | undefined;
+}
+
+const client = connect({ url: env.DATABASE_URL });
+const adapter = new PrismaPlanetScale(client);
+
+export const database = new PrismaClient({ adapter });
+```
+
+## 5. 更新 Prisma 架构
+
+更新你的 Prisma 架构以使用新的数据库提供商：
+
+```prisma packages/database/prisma/schema.prisma {10}
+// 这是你的 Prisma 架构文件，
+// 在文档中了解更多：https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+// 这是一个存根模型。
+// 删除它并添加你自己的 Prisma 模型。
+model Page {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+}
+```
+
+## 6. 添加 `dev` 脚本
+
+在你的 `package.json` 中添加一个 `dev` 脚本：
+
+```json packages/database/package.json {3}
+{
+  "scripts": {
+    "dev": "pscale connect [database_name] [branch_name] --port 3309"
+  }
+}

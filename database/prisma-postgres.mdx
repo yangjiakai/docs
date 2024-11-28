@@ -1,0 +1,159 @@
+---
+title: 切换到 Prisma Postgres
+description: 如何将数据库提供商从 Neon 切换到 Prisma Postgres
+icon: database
+---
+
+import { Authors } from '/snippets/authors.mdx';
+
+<Authors data={[{
+  user: {
+    name: 'Hayden Bleasel',
+    id: 'haydenbleasel',
+  },
+  company: {
+    name: 'next-forge',
+    id: 'next-forge',
+  },
+}, {
+  user: {
+    name: 'Nikolas Burk',
+    id: 'nikolasburk',
+  },
+  company: {
+    name: 'Prisma',
+    id: 'prisma',
+  },
+}]} />
+
+以下是如何从 Neon 切换到 [Prisma Postgres](https://www.prisma.io/postgres) 的步骤 — 这是一个零冷启动且拥有慷慨免费层的无服务器数据库。你可以在[这里](https://www.prisma.io/blog/announcing-prisma-postgres-early-access)了解更多关于其实现这一点的架构。
+
+## 1. 创建新的 Prisma Postgres 实例
+
+首先通过 [Prisma Data Platform](https://console.prisma.io/) 创建一个新的 Prisma Postgres 实例并获取连接字符串。它看起来像这样：
+
+```
+prisma+postgres://accelerate.prisma-data.net/?api_key=ey....
+```
+
+## 2. 更新环境变量
+
+更新你的环境变量以使用新的 Prisma Postgres 连接字符串：
+
+```js apps/database/.env
+DATABASE_URL="prisma+postgres://accelerate.prisma-data.net/?api_key=ey...."
+```
+
+## 3. 在 `@repo/database` 中替换所需的依赖项
+
+卸载现有依赖项...
+
+```sh Terminal
+pnpm remove @neondatabase/serverless @prisma/adapter-neon ws @types/ws
+```
+
+...并安装新的依赖项：
+
+```sh Terminal
+pnpm add @prisma/extension-accelerate
+```
+
+## 4. 更新数据库连接代码
+
+更新数据库连接代码以使用新的 Prisma Postgres 适配器：
+
+```ts packages/database/index.ts {4,7}
+import 'server-only';
+
+import { env } from '@repo/env';
+import { withAccelerate } from '@prisma/extension-accelerate';
+import { PrismaClient } from '@prisma/client';
+
+export const database = new PrismaClient().$extends(withAccelerate());
+```
+
+你的项目现在已配置为使用 Prisma Postgres 实例进行迁移和查询。
+
+## 5. 探索缓存和实时数据库事件
+
+请注意，由于与其他 Prisma 产品的一流集成，Prisma Postgres 自带了一些你可能会觉得有用的额外功能：
+
+- [Prisma Accelerate](https://www.prisma.io/accelerate)：启用连接池和全局缓存
+- [Prisma Pulse](https://www.prisma.io/pulse)：启用数据库事件的实时流式传输
+
+### 缓存
+
+要使用 Prisma Client 缓存查询，你可以在任何查询中添加 [`swr`](https://www.prisma.io/docs/accelerate/caching#stale-while-revalidate-swr) 和 [`ttl`](https://www.prisma.io/docs/accelerate/caching#time-to-live-ttl) 选项，例如：
+
+```ts page.tsx
+const pages = await prisma.page.findMany({
+  swr: 60, // 60 秒
+  ttl: 60  // 60 秒
+});
+```
+
+在 [Accelerate 文档](https://www.prisma.io/docs/accelerate)中了解更多信息。
+
+### 实时数据库事件
+
+要从数据库流式传输数据库更改事件，你首先需要安装 Pulse 扩展：
+
+```sh Terminal
+pnpm add @prisma/extension-pulse
+```
+
+然后，你需要添加你的 Pulse API 密钥作为环境变量：
+
+```ts apps/database/.env
+PULSE_API_KEY="ey...."
+```
+
+<Info>
+  你可以在你的 Prisma Postgres 连接字符串中找到你的 Pulse API 密钥，它是 `api_key` 参数的值，开始于 `ey...`。或者，你可以在 [Prisma Postgres Dashboard](https://console.prisma.io) 中找到 API 密钥。
+</Info>
+
+然后，更新 `env` 包以包含新的 `PULSE_API_KEY` 环境变量：
+
+```ts packages/env/index.ts {3,11}
+export const server = {
+  // ...
+  PULSE_API_KEY: z.string().min(1).startsWith('ey'),
+};
+
+export const env = createEnv({
+  client,
+  server,
+  runtimeEnv: {
+    // ...
+    PULSE_API_KEY: process.env.PULSE_API_KEY,
+  },
+});
+```
+
+最后，更新数据库连接代码以包含 Pulse 扩展：
+
+```ts packages/database/index.ts {2, 7-9}
+import 'server-only';
+import { withPulse } from '@prisma/extension-pulse';
+import { withAccelerate } from '@prisma/extension-accelerate';
+import { PrismaClient } from '@prisma/client';
+import { env } from '@repo/env';
+
+export const database = new PrismaClient()
+  .$extends(withAccelerate())
+  .$extends(withPulse({ apiKey: env.PULSE_API_KEY })) ;
+```
+
+你现在可以使用以下代码流式传输数据库中的任何更改事件：
+
+```ts page.tsx
+const stream = await prisma.page.stream();
+
+console.log(`Waiting for an event on the \`Page\` table ... `);
+
+for await (const event of stream) {
+  console.log('Received an event:', event);
+}
+```
+
+在 [Pulse 文档](https://www.prisma.io/docs/pulse)中了解更多信息。
