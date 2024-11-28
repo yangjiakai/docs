@@ -1,20 +1,21 @@
 ---
-title: JSON-LD
-description: How we've implemented JSON-LD structured data.
+title: JSON-LD 结构化数据
+description: 我们如何实现 JSON-LD 结构化数据
+icon: code
 ---
 
-## Default Configuration
+## 默认配置 / Default Configuration
 
-next-forge has a dedicated JSON+LD helper designed to create fully validated Google structured data, making your content more likely to be featured in Google Search results.
+next-forge 有一个专门的 JSON+LD 助手，用于创建经过完全验证的 Google 结构化数据，使你的内容更有可能在 Google 搜索结果中被突出显示。
 
-By default, structured data is implemented on the following pages:
+默认情况下，结构化数据在以下页面上实现：
 
-- `Blog` for the blog index
-- `BlogPosting` for the blog post pages
+- 博客索引页面使用 `Blog` 类型
+- 博客文章页面使用 `BlogPosting` 类型
 
-## Usage
+## 使用方法 / Usage
 
-Our `@repo/seo` package provides a JSON+LD helper built on `schema-dts`, allowing for structured data generation in a type-safe way. You can declare your own JSON+LD implementations like so:
+我们的 `@repo/seo` 包提供了一个基于 `schema-dts` 构建的 JSON+LD 助手，允许以类型安全的方式生成结构化数据。你可以像这样声明自己的 JSON+LD 实现：
 
 ```page.tsx
 import { JsonLd } from '@repo/seo/json-ld';

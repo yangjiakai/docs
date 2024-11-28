@@ -1,6 +1,7 @@
 ---
-title: Application Security
-description: Security measures taken to protect your applications.
+title: 应用程序安全
+description: 保护应用程序的安全措施
+icon: shield-check
 ---
 
 import { Authors } from '/snippets/authors.mdx';
@@ -25,45 +26,45 @@ import { Authors } from '/snippets/authors.mdx';
   },
 }]} />
 
-next-forge uses [Arcjet](https://arcjet.com/), a security as code product that includes several features that can be used individually or combined to provide defense in depth for your site. You can [sign up for a free account](https://arcjet.com/) and add the API key to the environment variables to use the features we have included.
+## 概述 / Overview
 
-## Philosophy
+next-forge 使用 [Arcjet](https://arcjet.com/)，这是一个安全即代码产品，包含多个可以单独使用或组合使用的功能，为你的网站提供深度防御。你可以[注册一个免费账户](https://arcjet.com/)并将 API 密钥添加到环境变量中，以使用我们包含的功能。
 
-Proper security protections need the full context of the application, which is why security rules and protections should be located alongside the code they are protecting.
+## 理念 / Philosophy
 
-Arcjet security as code means you can version control your security rules, track changes through pull requests, and test them locally before deploying to production.
+适当的安全保护需要应用程序的完整上下文，这就是为什么安全规则和保护应该与它们所保护的代码放在一起。
 
-## Configuration
+Arcjet 的安全即代码意味着你可以对安全规则进行版本控制，通过拉取请求跟踪更改，并在部署到生产环境之前在本地测试它们。
 
-Arcjet is configured in next-forge with two main features: bot detection and the Arcjet Shield WAF:
+## 配置 / Configuration
 
-- [Bot detection](https://docs.arcjet.com/bot-protection/concepts) is configured to allow search engines, preview link generators e.g. Slack and Twitter previews, and to allow common uptime monitoring services. All other bots, such as scrapers and AI crawlers, will be blocked. You can [configure additional bot types](https://docs.arcjet.com/bot-protection/identifying-bots) to allow or block.
-- [Arcjet Shield WAF](https://docs.arcjet.com/shield/concepts) will detect and block common attacks such as SQL injection, cross-site scripting, and other [OWASP Top 10 vulnerabilities](https://owasp.org/www-project-top-ten/).
+Arcjet 在 next-forge 中配置了两个主要功能：机器人检测和 Arcjet Shield WAF：
 
-Both the `web` and `app` apps have Arcjet configured with a central client at `@repo/security`  that includes the Shield WAF rules. Each app then extends this client with additional rules:
+- [机器人检测](https://docs.arcjet.com/bot-protection/concepts)配置为允许搜索引擎、预览链接生成器（如 Slack 和 Twitter 预览），以及允许常见的正常运行时间监控服务。所有其他机器人，如爬虫和 AI 爬虫，都将被阻止。你可以[配置其他机器人类型](https://docs.arcjet.com/bot-protection/identifying-bots)来允许或阻止。
+- [Arcjet Shield WAF](https://docs.arcjet.com/shield/concepts) 将检测和阻止常见的攻击，如 SQL 注入、跨站脚本和其他 [OWASP Top 10 漏洞](https://owasp.org/www-project-top-ten/)。
 
-### Web
+`web` 和 `app` 应用程序都在 `@repo/security` 中配置了 Arcjet，包括 Shield WAF 规则。然后每个应用程序都用额外的规则扩展这个客户端：
 
-For the `web` app, bot detection and the Arcjet Shield WAF are both configured in the Middleware to block scrapers and other bots, but still allow search engines, preview link generators, and monitoring services. This will run on every request by default, except for static assets.
+### Web 应用 / Web Application
 
-### App
+对于 `web` 应用，机器人检测和 Arcjet Shield WAF 都在中间件中配置，以阻止爬虫和其他机器人，但仍允许搜索引擎、预览链接生成器和监控服务。默认情况下，这将在每个请求上运行，除了静态资源。
 
-For `app`, the central client is extended in the authenticated route layout in `apps/app/app/(authenticated)/layout.tsx` with bot detection to block all bots except preview link generators. This will run just on authenticated routes. For additional protection you may want to configure Arcjet on the `apps/app/app/(unauthenticated)/layout.tsx` route as well, but Clerk includes bot detection and rate limiting in their login route handlers by default.
+### App 应用 / App Application
 
-When a rule is triggered, the request will be blocked and an error returned. You can customize the error message in code, redirect to a different page, or handle the error in a different way as needed.
+对于 `app`，中央客户端在 `apps/app/app/(authenticated)/layout.tsx` 的认证路由布局中扩展了机器人检测，以阻止除预览链接生成器之外的所有机器人。这将仅在认证路由上运行。为了额外的保护，你可能还想在 `apps/app/app/(unauthenticated)/layout.tsx` 路由上配置 Arcjet，但 Clerk 在其登录路由处理程序中默认包含了机器人检测和速率限制。
 
-## Scaling up your security
+当触发规则时，请求将被阻止并返回错误。你可以在代码中自定义错误消息，重定向到不同的页面，或根据需要以不同的方式处理错误。
 
-next-forge includes a boilerplate setup for Arcjet that protects against common threats to SaaS applications, but since the rules are defined in code, you can easily adjust them dynamically at runtime.
+## 扩展安全性 / Scaling up Security
 
-For example, if you build out an API for your application you could use [Arcjet rate limiting](https://docs.arcjet.com/rate-limiting/quick-start) with different quotas depending on the pricing plan of the user.
+next-forge 包含了 Arcjet 的基本设置，你可以根据需要进行扩展和自定义。例如，如果你为你的应用程序构建了一个 API，你可以使用 [Arcjet 速率限制](https://docs.arcjet.com/rate-limiting/quick-start)，根据用户的定价计划使用不同的配额。
 
-Other features include [PII detection](https://docs.arcjet.com/sensitive-info/quick-start) and [email validation](https://docs.arcjet.com/email-validation/quick-start). They're not used in the boilerplate, but can be added as needed.
+其他功能包括 [PII 检测](https://docs.arcjet.com/sensitive-info/quick-start) 和 [电子邮件验证](https://docs.arcjet.com/email-validation/quick-start)。它们在基本设置中没有使用，但可以根据需要添加。
 
-### What about DDoS attacks?
+### 什么是 DDoS 攻击？
 
-Network layer attacks are usually generic and high volume, making them best handled by your hosting platform. Most cloud providers offer network DDoS protection as a default feature.
+网络层攻击通常是通用的和高容量的，最好由你的托管平台处理。大多数云提供商都提供了网络 DDoS 保护作为默认功能。
 
-Arcjet sits closer to your application so it can understand the context. This is important because some types of traffic may not look like a DDoS attack, but can still have the same effect e.g. making too many API requests. Arcjet works in all environments so there's no lock-in to platform-specific security.
+Arcjet 位于你的应用程序更近的位置，因此它可以理解上下文。这很重要，因为某些类型的流量可能看起来不像 DDoS 攻击，但仍然可以产生相同的效果，例如，发出太多的 API 请求。Arcjet 可以在所有环境中工作，因此没有对平台特定安全性的锁定。
 
-Volumetric network attacks are best handled by your hosting provider. Application level attacks need to be handled by the application. That's where Arcjet helps.
+网络攻击最好由你的托管平台处理。应用程序级别的攻击需要由应用程序处理。这就是 Arcjet 帮助的地方。

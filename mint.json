@@ -88,6 +88,7 @@
         "features/webhooks"
       ]
     },
+
     {
       "group": "AI",
       "icon": "robot",
@@ -173,6 +174,25 @@
         "observability/error-capture",
         "observability/logging",
         "observability/uptime"
+      ]
+    },
+    {
+      "group": "SEO",
+      "icon": "magnifying-glass",
+      "pages": [
+        "seo/json-ld",
+        "seo/metadata",
+        "seo/sitemap"
+      ]
+    },
+    {
+      "group": "安全",
+      "icon": "shield-check",
+      "pages": [
+        "security/application",
+        "security/dependencies",
+        "security/headers",
+        "security/ip-geolocation"
       ]
     }
   ],

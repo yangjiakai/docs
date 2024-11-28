@@ -1,27 +1,32 @@
 ---
-title: Metadata
-description: How to customize the page metadata.
+title: 元数据配置
+description: 如何自定义页面元数据
+icon: tag
 ---
 
-next-forge relies on Next.js's built-in [Metadata](https://nextjs.org/docs/app/building-your-application/optimizing/metadata) API to handle most of our SEO needs. Specifically, the `@repo/seo` package provides a `createMetadata` function that you can use to generate metadata for your pages. For example:
+## 概述 / Overview
+
+next-forge 依赖于 Next.js 内置的 [Metadata](https://nextjs.org/docs/app/building-your-application/optimizing/metadata) API 来处理大多数 SEO 需求。具体来说，`@repo/seo` 包提供了一个 `createMetadata` 函数，你可以用它来为页面生成元数据。例如：
 
 ```tsx page.tsx
 import { createMetadata } from '@repo/seo/metadata';
 
 export const metadata = createMetadata({
-  title: 'My Page',
-  description: 'My page description',
+  title: '我的页面',
+  description: '我的页面描述',
 });
 ```
 
-While this looks similar to just exporting a `metadata` object from your page, the `createMetadata` function deep merges your metadata with our default metadata, allowing you to customize only the metadata that you need to. It's also much easier to specify a cover photo for the page, for example:
+## 高级用法 / Advanced Usage
+
+虽然这看起来与直接从页面导出 `metadata` 对象类似，但 `createMetadata` 函数会将你的元数据与我们的默认元数据进行深度合并，让你只需要自定义必要的元数据。例如，指定页面的封面图片也变得更加简单：
 
 ```tsx page.tsx {6}
 import { createMetadata } from '@repo/seo/metadata';
 
 export const metadata = createMetadata({
-  title: 'My Page',
-  description: 'My page description',
+  title: '我的页面',
+  description: '我的页面描述',
   image: '/my-page-image.png',
 });
 ```

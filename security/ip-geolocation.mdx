@@ -1,6 +1,7 @@
 ---
-title: IP Geolocation
-description: Accessing IP geolocation data in your application.
+title: IP 地理位置
+description: 在应用程序中访问 IP 地理位置数据
+icon: globe
 ---
 
 import { Authors } from '/snippets/authors.mdx';
@@ -25,47 +26,49 @@ import { Authors } from '/snippets/authors.mdx';
   },
 }]} />
 
-next-forge uses [Arcjet](https://arcjet.com) for [application security](/security/application) which includes [IP details and geolocation information](https://docs.arcjet.com/reference/nextjs#ip-analysis) you can use in your application.
+## 概述 / Overview
 
-In the `app` application, Arcjet is called in the `apps/app/app/(authenticated)/layout.tsx` file which runs on every authenticated route.
+next-forge 使用 [Arcjet](https://arcjet.com) 进行[应用程序安全](/security/application)，其中包括你可以在应用程序中使用的 [IP 详细信息和地理位置信息](https://docs.arcjet.com/reference/nextjs#ip-analysis)。
 
-For the `web` application, Arcjet is called in the middleware, which runs on every request except for static assets.
+在 `app` 应用程序中，Arcjet 在 `apps/app/app/(authenticated)/layout.tsx` 文件中被调用，该文件在每个认证路由上运行。
 
-In both cases you could apply app-/website-wide rules based on the IP details, such as showing different content based on the user's location.
+对于 `web` 应用程序，Arcjet 在中间件中被调用，除了静态资源外，它在每个请求上运行。
 
-## Accessing IP location data
+在这两种情况下，你都可以根据 IP 详细信息应用应用程序/网站范围的规则，例如根据用户的位置显示不同的内容。
 
-The IP details are available in the Arcjet decision object, which is returned from the all to `aj.protect()`. The IP location fields may be `undefined`, so you can use various utility functions to retrieve the data.
+## 访问 IP 位置数据 / Accessing IP Location Data
+
+IP 详细信息在 Arcjet 决策对象中可用，该对象从 `aj.protect()` 调用中返回。IP 位置字段可能是 `undefined`，因此你可以使用各种实用函数来检索数据。
 
 ```ts
 // ...
 const decision = await aj.protect(req);
 
 if (decision.ip.hasCity() && decision.ip.city === "San Francisco") {
-  // Create a custom response for San Francisco
+  // 为旧金山创建自定义响应
 }
 
 if (decision.ip.hasRegion() && decision.ip.region === "California") {
-  // Create a custom response for California
+  // 为加利福尼亚创建自定义响应
 }
 
 if (decision.ip.hasCountry() && decision.ip.country === "US") {
-  // Create a custom response for the United States
+  // 为美国创建自定义响应
 }
 
 if (decision.ip.hasContinent() && decision.ip.continent === "NA") {
-  // Create a custom response for North America
+  // 为北美创建自定义响应
 }
 ```
 
-See the Arcjet [IP analysis reference](https://docs.arcjet.com/reference/nextjs#ip-analysis) for more information on the fields available.
+有关可用字段的更多信息，请参阅 Arcjet [IP 分析参考](https://docs.arcjet.com/reference/nextjs#ip-analysis)。
 
-## Accessing IP details elsewhere
+## 在其他地方访问 IP 详细信息 / Accessing IP Details Elsewhere
 
-Next.js does not allow passing data from [the root layout](https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates) or middleware to other pages in your application. To access the IP details in other parts of your application, you need to remove the Arcjet call from the root layout (`app`) or middleware (`web`) and call it in the specific page where you need the IP details.
+Next.js 不允许从[根布局](https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates)或中间件将数据传递到应用程序的其他页面。要在应用程序的其他部分访问 IP 详细信息，你需要从根布局（`app`）或中间件（`web`）中移除 Arcjet 调用，并在需要 IP 详细信息的特定页面中调用它。
 
-See the Arcjet documentation on how to call `aj.protect()` in [route handlers](https://docs.arcjet.com/reference/nextjs#protect), [pages / server components](https://docs.arcjet.com/reference/nextjs#pages--page-components), and [server actions](https://docs.arcjet.com/reference/nextjs#server-actions).
+有关如何在[路由处理程序](https://docs.arcjet.com/reference/nextjs#protect)、[页面/服务器组件](https://docs.arcjet.com/reference/nextjs#pages--page-components)和[服务器操作](https://docs.arcjet.com/reference/nextjs#server-actions)中调用 `aj.protect()` 的信息，请参阅 Arcjet 文档。
 
 <Note>
-  If you remove the Arcjet call from `apps/app/app/(authenticated)/layout.tsx` or `middleware.ts` it will no longer run on every request. You will need to call `aj.protect()` everywhere you wish to apply Arcjet rules, even if you don't need the IP details.
+如果你从 `apps/app/app/(authenticated)/layout.tsx` 或中间件中移除 Arcjet 调用，请确保在需要保护的每个路由中都添加了适当的安全规则。
 </Note>

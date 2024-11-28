@@ -1,27 +1,30 @@
 ---
-title: Security Headers
-description: Security headers used to protect your application.
+title: 安全标头
+description: 用于保护应用程序的安全标头
+icon: shield-check
 ---
 
-next-forge uses [next-secure-headers](https://github.com/jagaapple/next-secure-headers) to set HTTP response headers related to security.
+## 概述 / Overview
 
-## Configuration
+next-forge 使用 [next-secure-headers](https://github.com/jagaapple/next-secure-headers) 来设置与安全相关的 HTTP 响应标头。
 
-Here are the headers we have enabled:
+## 配置 / Configuration
 
-| Property | Header | Description | Value |
+以下是我们启用的标头：
+
+| 属性 | 标头 | 描述 | 值 |
 | --- | --- | --- | --- |
-| `forceHTTPSRedirect` | `Strict-Transport-Security` | Prevents browsers from connecting to your site over HTTP. | `[true, { maxAge: 63_072_000, includeSubDomains: true, preload: true }]` |
-| `frameGuard` | `X-Frame-Options` | Prevents browsers from rendering your site in an iframe. | `deny` |
-| `noopen` | `X-Download-Options` | Prevents browsers from automatically opening downloaded files in the same origin as the page. | `noopen` |
-| `nosniff` | `X-Content-Type-Options` | Prevents browsers from MIME-sniffing a response away from the declared content type. | `nosniff` |
-| `xssProtection` | `X-XSS-Protection` | Prevents browsers from executing inline scripts if a cross-site scripting attack is detected. | `sanitize` |
-| `contentSecurityPolicy` | `Content-Security-Policy` | Sets a policy to prevent a wide range of different types of attacks, including Cross Site Scripting (XSS) and data injection attacks. | `false` |
-| `expectCT` | `Expect-CT` | Enables a mechanism to mitigate the risk of fraudulent certificates being used in connections to your site. | `false` |
-| `referrerPolicy` | `Referrer-Policy` | Controls how much of the full URL is included in the `Referer` header. | `false` |
+| `forceHTTPSRedirect` | `Strict-Transport-Security` | 防止浏览器通过 HTTP 连接到你的网站 / Prevents browsers from connecting to your site over HTTP. | `[true, { maxAge: 63_072_000, includeSubDomains: true, preload: true }]` |
+| `frameGuard` | `X-Frame-Options` | 防止浏览器在 iframe 中渲染你的网站 / Prevents browsers from rendering your site in an iframe. | `deny` |
+| `noopen` | `X-Download-Options` | 防止浏览器在与页面相同的源中自动打开下载的文件 / Prevents browsers from automatically opening downloaded files in the same origin as the page. | `noopen` |
+| `nosniff` | `X-Content-Type-Options` | 防止浏览器对响应进行 MIME 嗅探，使其偏离声明的内容类型 / Prevents browsers from MIME-sniffing a response away from the declared content type. | `nosniff` |
+| `xssProtection` | `X-XSS-Protection` | 如果检测到跨站脚本攻击，防止浏览器执行内联脚本 / Prevents browsers from executing inline scripts if a cross-site scripting attack is detected. | `sanitize` |
+| `contentSecurityPolicy` | `Content-Security-Policy` | 设置策略以防止各种不同类型的攻击，包括跨站脚本（XSS）和数据注入攻击 / Sets a policy to prevent a wide range of different types of attacks, including Cross Site Scripting (XSS) and data injection attacks. | `false` |
+| `expectCT` | `Expect-CT` | 启用机制以降低在连接到你的网站时使用欺诈证书的风险 / Enables a mechanism to mitigate the risk of fraudulent certificates being used in connections to your site. | `false` |
+| `referrerPolicy` | `Referrer-Policy` | 控制在 `Referer` 标头中包含完整 URL 的程度 / Controls how much of the full URL is included in the `Referer` header. | `false` |
 
-<Tip>The `forceHTTPSRedirect` property has been customized from the default to include subdomains and preload the HSTS policy. This should allow you to submit your site at [hstspreload.org](https://hstspreload.org/) without any issues.</Tip>
+<Tip>`forceHTTPSRedirect` 属性已从默认值进行了自定义，以包含子域名并预加载 HSTS 策略。这应该允许你在 [hstspreload.org](https://hstspreload.org/) 上提交你的网站而不会出现任何问题。 / The `forceHTTPSRedirect` property has been customized from the default to include subdomains and preload the HSTS policy. This should allow you to submit your site at [hstspreload.org](https://hstspreload.org/) without any issues.</Tip>
 
-## Usage
+## 使用方法 / Usage
 
-The headers are enabled by default when using the `next-config` package. If you are customizing your `next.config.ts` file, you can extend the headers manually.
+使用 `next-config` 包时，这些标头默认启用。如果你正在自定义 `next.config.ts` 文件，可以手动扩展标头。 / The headers are enabled by default when using the `next-config` package. If you are customizing your `next.config.ts` file, you can extend the headers manually.

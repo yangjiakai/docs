@@ -6,11 +6,11 @@ icon: envelope
 
 我们使用 [Resend](https://resend.com/) 发送交易邮件。位于 `@repo/email` 的模板由 [React Email](https://react.email/) 提供支持 - 这是一个使用 React 和 TypeScript 创建精美邮件的高质量、无样式组件集合。
 
-## 邮件模板
+## 邮件模板 / Templates 
 
 `email` 包与 app 文件夹分开有两个原因：
 
-1. 我们可以将模板导入到 `email` 应用中，以便在 UI 中预览它们；
+1. 我们可以将模板导入到 `email` 应用中，以便在 UI 中预览它们;
 2. 我们可以将模板和 SDK 都导入到其他应用中，并使用它们发送邮件。
 
 Resend 和 React Email 配合得很好。例如，以下是如何使用 React 邮件模板发送交易邮件：
@@ -27,7 +27,7 @@ await resend.emails.send({
 });
 ```
 
-## 预览邮件
+## 预览邮件 / Preview
 
 要预览邮件模板，只需运行 `email` 应用：
 

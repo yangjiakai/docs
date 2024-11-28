@@ -1,8 +1,13 @@
 ---
-title: Dependency Security
-description: Security measures taken to keep your dependencies secure.
+title: 依赖项安全
+description: 保持依赖项安全的措施
+icon: shield-check
 ---
 
-next-forge has Dependabot configured in `.github/dependabot.yml` to check for updates every month. When there are package updates, a pull request will be opened.
+## 概述 / Overview
 
-You may want to consider a dependency analysis tool like Socket to check for issues with dependencies in pull requests. We also recommend enabling [GitHub Secret Scanning](https://docs.github.com/en/code-security/secret-scanning/introduction/about-secret-scanning) or a tool [Gitleaks](https://github.com/gitleaks/gitleaks) or [Trufflehog](https://github.com/trufflesecurity/trufflehog) to check for secrets in your code.
+next-forge 在 `.github/dependabot.yml` 中配置了 Dependabot，每月检查更新。当有包更新时，将会打开一个拉取请求。
+
+## 建议 / Recommendations
+
+你可能想考虑使用像 Socket 这样的依赖项分析工具来检查拉取请求中的依赖项问题。我们还建议启用 [GitHub Secret Scanning](https://docs.github.com/en/code-security/secret-scanning/introduction/about-secret-scanning) 或使用 [Gitleaks](https://github.com/gitleaks/gitleaks) 或 [Trufflehog](https://github.com/trufflesecurity/trufflehog) 等工具来检查代码中的敏感信息。
