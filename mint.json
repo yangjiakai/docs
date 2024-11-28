@@ -1,11 +1,15 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "next-forge 中文文档",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
+  
   "favicon": "/favicon.svg",
+  "codeBlock": {
+    "mode": "auto"
+  },
   "colors": {
     "primary": "#0D9373",
     "light": "#08C983",
