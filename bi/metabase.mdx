@@ -1,6 +1,6 @@
 ---
-title: Metabase
-description: How to add business intelligence and analytics to your app with Metabase.
+title: Metabase 商业智能
+description: 如何使用 Metabase 为你的应用添加商业智能和分析功能
 ---
 
 import { Authors } from '/snippets/authors.mdx';
@@ -25,50 +25,50 @@ import { Authors } from '/snippets/authors.mdx';
   },
 }]} />
 
-While next-forge does not come with BI tooling out of the box, you can easily add business intelligence and analytics to your app with [Metabase](https://www.metabase.com/).
+虽然 next-forge 默认不包含商业智能工具，但你可以轻松地使用 [Metabase](https://www.metabase.com/) 为你的应用添加商业智能和分析功能。
 
-## Overview
+## 概述 / Overview
 
-Metabase is an open-source business intelligence platform. You can use Metabase to ask questions about your data, or embed Metabase in your app to let your customers explore their data on their own.
+Metabase 是一个开源的商业智能平台。你可以使用 Metabase 查询数据，或将其嵌入到你的应用中，让客户能够自主探索他们的数据。
 
-## Installing Metabase
+## 安装 Metabase / Installing Metabase
 
-Metabase provides an official Docker image via Dockerhub that can be used for deployments on any system that is running Docker. Here's a one-liner that will start a container running Metabase.
+Metabase 通过 Dockerhub 提供官方 Docker 镜像，可用于在任何运行 Docker 的系统上部署。以下是启动运行 Metabase 容器的一行命令：
 
 ```sh
 docker run -d --name metabase -p 3000:3000 metabase/metabase
 ```
 
-You can also install Metabase by running the JAR file. Links to different installations:
+你也可以通过运行 JAR 文件来安装 Metabase。不同安装方式的链接：
 
-- [Quick Start](https://www.metabase.com/start/oss/)
-- [Docker Documentation](https://www.metabase.com/docs/latest/installation-and-operation/running-metabase-on-docker)
-- [Jar File Documentation](https://www.metabase.com/docs/latest/installation-and-operation/running-the-metabase-jar-file)
+- [快速开始](https://www.metabase.com/start/oss/)
+- [Docker 文档](https://www.metabase.com/docs/latest/installation-and-operation/running-metabase-on-docker)
+- [Jar 文件文档](https://www.metabase.com/docs/latest/installation-and-operation/running-the-metabase-jar-file)
 
-## Database Connection
+## 数据库连接 / Database Connection
 
-By default, next-forge uses Neon as its database provider. Metabase works great with Postgres databases so if you're ready to connect, here's what you'll need:
+默认情况下，next-forge 使用 Neon 作为数据库提供商。Metabase 与 Postgres 数据库配合得很好，如果你准备连接，以下是你需要的信息：
 
-- The `hostname` of the server where your database lives
-- The `port` the database server uses
-- The `database name`
-- The `username` you use for the database
-- The `password` you use for the database
+- 数据库服务器的 `hostname`（主机名）
+- 数据库服务器使用的 `port`（端口）
+- `database name`（数据库名称）
+- 你使用的数据库 `username`（用户名）
+- 你使用的数据库 `password`（密码）
 
-You can find these details in your `DATABASE_URL` environment variable:
+你可以在 `DATABASE_URL` 环境变量中找到这些详细信息：
 
 ```js
 DATABASE_URL="postgresql://[username]:[password]@[hostname]:[port]/[database_name]?sslmode=require"
 ```
 
-Next, plug your database connection credentials into Metabase:
+接下来，将你的数据库连接凭据输入到 Metabase 中：
 
 <Frame>
   <img src="/images/metabase-add-database.png" style={{ borderRadius: '0.5rem' }} />
 </Frame>
 
-Metabase supports over 20 databases. If you're working with a database other than postgres and want to integrate it, check out the [Metabase Database Documentation](https://www.metabase.com/docs/latest/databases/connecting).
+Metabase 支持超过 20 种数据库。如果你使用的是 Postgres 以外的数据库并想要集成它，请查看 [Metabase 数据库文档](https://www.metabase.com/docs/latest/databases/connecting)。
 
-## Asking Questions and building Dashboards
+## 提问和构建仪表板 / Asking Questions and Building Dashboards
 
-Now that you have installed Metabase, have database credentials, you can start asking [Questions](https://www.metabase.com/docs/latest/questions/query-builder/introduction) and building [Dashboards](https://www.metabase.com/docs/latest/dashboards/introduction).
+现在你已经安装了 Metabase，并且有了数据库凭据，你可以开始提出[问题](https://www.metabase.com/docs/latest/questions/query-builder/introduction)并构建[仪表板](https://www.metabase.com/docs/latest/dashboards/introduction)了。

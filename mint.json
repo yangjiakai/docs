@@ -92,6 +92,13 @@
       ]
     },
     {
+      "group": "商业智能",
+      "icon": "chart-bar",
+      "pages": [
+        "bi/metabase"
+      ]
+    },
+    {
       "group": "API 文档",
       "pages": ["api-reference/introduction"]
     },
@@ -115,13 +122,7 @@
     },
 
 
-    {
-      "group": "商业智能",
-      "icon": "chart-bar",
-      "pages": [
-        "bi/metabase"
-      ]
-    },
+ 
     {
       "group": "数据库",
       "icon": "database",
