@@ -1,22 +1,23 @@
 ---
 title: Storybook
-description: Frontend workshop for the design system
+description: 设计系统的前端工作坊 / Frontend workshop for the design system
+icon: book
 ---
 
 <Frame>
-  <img src="/images/storybook.png" alt="next-forge uses Storybook." />
+  <img src="/images/storybook.png" alt="next-forge 使用 Storybook" />
 </Frame>
 
-next-forge uses [Storybook](https://storybook.js.org/) as a frontend workshop for the design system. It allows you to interact with the components in the design system, and see how they behave in different states.
+next-forge 使用 [Storybook](https://storybook.js.org/) 作为设计系统的前端工作坊。它允许你与设计系统中的组件进行交互，并查看它们在不同状态下的表现。
 
-## Configuration
+## 配置 / Configuration
 
-By default, Storybook is configured with every component from [shadcn/ui](https://ui.shadcn.com/), and allows you to interact with them. It is also configured with the relevant fonts and higher-order components to ensure a consistent experience between your application and Storybook.
+默认情况下，Storybook 配置了来自 [shadcn/ui](https://ui.shadcn.com/) 的所有组件，并允许你与它们交互。它还配置了相关的字体和高阶组件，以确保你的应用程序和 Storybook 之间的体验一致。
 
-## Running the workshop
+## 运行工作坊 / Running the Workshop
 
-Storybook will start automatically when you run `pnpm dev`. You can also start it independently with `pnpm dev --filter storybook`. The preview will be available at [localhost:6006](http://localhost:6006).
+当你运行 `pnpm dev` 时，Storybook 将自动启动。你也可以使用 `pnpm dev --filter storybook` 独立启动它。预览将在 [localhost:6006](http://localhost:6006) 上可用。
 
-## Adding stories
+## 添加故事 / Adding Stories
 
-You can add your own components to the workshop by adding them to the `apps/storybook/stories` directory. Each component should have its own `.stories.tsx` file.
+你可以通过在 `apps/storybook/stories` 目录中添加组件来将自己的组件添加到工作坊中。每个组件应该有自己的 `.stories.tsx` 文件。

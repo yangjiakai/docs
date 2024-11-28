@@ -1,12 +1,12 @@
 ---
-title: 切换到 PlanetScale
+title: 使用 PlanetScale
 description: 如何将数据库提供商从 Neon 切换到 PlanetScale
 icon: database
 ---
 
 以下是如何从 Neon 切换到 [PlanetScale](https://planetscale.com) 的步骤。
 
-## 1. 在 PlanetScale 上创建新数据库
+## 1. 在 PlanetScale 上创建新数据库 / Create a New Database on PlanetScale
 
 在 PlanetScale 上创建数据库后，你将获得一个连接字符串。它看起来像这样：
 
@@ -16,7 +16,7 @@ mysql://<username>:<password>@<region>.aws.connect.psdb.cloud/<database>
 
 请保存好这个连接字符串，你在下一步会需要它。
 
-## 2. 更新环境变量
+## 2. 更新环境变量 / Update Environment Variables
 
 更新你的环境变量以使用新的 PlanetScale 连接字符串：
 
@@ -30,7 +30,7 @@ DATABASE_URL="mysql://<username>:<password>@<region>.aws.connect.psdb.cloud/<dat
 
 以此类推。
 
-## 3. 在 `@repo/database` 中替换所需的依赖项
+## 3. 在 `@repo/database` 中替换所需的依赖项  / Replace Dependencies in `@repo/database`
 
 卸载现有依赖项...
 
@@ -44,7 +44,7 @@ pnpm remove @neondatabase/serverless @prisma/adapter-neon ws @types/ws --filter 
 pnpm add @planetscale/database @prisma/adapter-planetscale --filter database
 ```
 
-## 4. 更新数据库连接代码
+## 4. 更新数据库连接代码  / Update Database Connection Code
 
 更新数据库连接代码以使用新的 PlanetScale 适配器：
 
@@ -66,7 +66,7 @@ const adapter = new PrismaPlanetScale(client);
 export const database = new PrismaClient({ adapter });
 ```
 
-## 5. 更新 Prisma 架构
+## 5. 更新 Prisma 架构  / Update Prisma Schema
 
 更新你的 Prisma 架构以使用新的数据库提供商：
 
@@ -94,7 +94,7 @@ model Page {
 }
 ```
 
-## 6. 添加 `dev` 脚本
+## 6. 添加 `dev` 脚本 / Add `dev` Script
 
 在你的 `package.json` 中添加一个 `dev` 脚本：
 

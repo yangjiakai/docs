@@ -1,18 +1,19 @@
 ---
-title: Bundle Analysis
-description: How to analyze and optimize your app's bundle size
+title: 打包分析
+description: 如何分析和优化应用的打包大小 / How to analyze and optimize your app's bundle size
+icon: chart-network
 ---
 
-next-forge uses [@vercel/next-bundle-analyzer](https://github.com/vercel/next-bundle-analyzer) to analyze and optimize your app's bundle size. Each app has a `next.config.ts` file that is configured to use the analyzer when the `ANALYZE` environment variable is set to `true`.
+next-forge 使用 [@vercel/next-bundle-analyzer](https://github.com/vercel/next-bundle-analyzer) 来分析和优化你的应用打包大小。每个应用都有一个 `next.config.ts` 文件，当 `ANALYZE` 环境变量设置为 `true` 时，它会配置使用分析器。
 
-## Usage
+## 使用方法 / Usage
 
-To run the analyzer, simply run the following command from the root of the project:
+要运行分析器，只需从项目根目录运行以下命令：
 
 ```sh Terminal
 pnpm analyze
 ```
 
-Turborepo will automatically run the analyzer for each app when the command is executed. Once the bundle analyzer finishes running for each app, it will open three HTML files in your default browser automatically: `client`, `nodejs` and `edge`. Each one shows a treemap, describing the size and impact of modules loaded on that particular environment.
+当命令执行时，Turborepo 会自动为每个应用运行分析器。一旦打包分析器完成每个应用的运行，它会在你的默认浏览器中自动打开三个 HTML 文件：`client`、`nodejs` 和 `edge`。每个文件都显示一个树状图，描述了在特定环境中加载的模块的大小和影响。
 
-You can then work on optimizing your app by removing or dynamically loading the heaviest modules.
+然后，你可以通过移除或动态加载最重的模块来优化你的应用。

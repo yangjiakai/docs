@@ -1,5 +1,5 @@
 ---
-title: 切换到 Turso
+title: 使用 Turso
 description: 如何将数据库提供商从 Neon 切换到 Turso
 icon: database
 ---
@@ -35,13 +35,13 @@ import { Authors } from "/snippets/authors.mdx";
 
 以下是如何为你的 `next-forge` 项目从 Neon 切换到 [Turso](https://turso.tech) 的步骤。
 
-## 1. 注册 Turso
+## 1. 注册 Turso 账户
 
 你可以使用 [Dashboard](https://app.turso.tech) 或 [CLI](https://docs.turso.tech/cli) 来管理你的账户、数据库和认证令牌。
 
 _我们将在本指南中使用 CLI。_
 
-## 2. 创建数据库
+## 2. 创建数据库 / Create Database
 
 使用 Turso CLI 创建一个新数据库并为其命名：
 
@@ -61,7 +61,7 @@ turso db show <database-name> --url
 libsql://<database-name>-<account-or-org-slug>.turso.io
 ```
 
-## 3. 创建数据库认证令牌
+## 3. 创建数据库认证令牌 / Create Database Authentication Token
 
 你需要创建一个认证令牌来连接到你的 Turso 数据库：
 
@@ -69,7 +69,7 @@ libsql://<database-name>-<account-or-org-slug>.turso.io
 turso db tokens create <database-name>
 ```
 
-## 4. 更新环境变量
+## 4. 更新环境变量 / Update Environment Variables
 
 更新你的环境变量以使用新的 Turso 连接字符串：
 
@@ -105,7 +105,7 @@ export const env = createEnv({
 });
 ```
 
-## 5. 更新数据库连接代码
+## 5. 更新数据库连接代码 / Update Database Connection Code
 
 删除 `@repo/database/index.ts` 中的所有内容，并替换为以下内容：
 
@@ -124,7 +124,7 @@ const client = createClient({
 export const database = drizzle(client);
 ```
 
-## 6. 更新依赖项
+## 6. 更新依赖项 / Update Dependencies
 
 卸载现有依赖项...
 
@@ -139,7 +139,7 @@ pnpm add @libsql/client drizzle-orm --filter database
 pnpm add -D drizzle-kit --filter database
 ```
 
-## 7. 创建 Drizzle 配置
+## 7. 创建 Drizzle 配置 / Create Drizzle Configuration
 
 在 `packages/database` 目录中创建一个 `drizzle.config.ts` 文件：
 
@@ -158,7 +158,7 @@ export default defineConfig({
 });
 ```
 
-## 8. 生成架构
+## 8. 生成架构 / Generate Schema
 
 使用 Drizzle Kit 从现有数据库生成架构：
 
@@ -168,7 +168,7 @@ pnpm drizzle-kit introspect:sqlite
 
 这将在 `packages/database/schema.ts` 中生成一个新的架构文件。
 
-## 9. 更新应用程序代码
+## 9. 更新应用程序代码 / Update Application Code
 
 现在在任何地方你通常会调用 Prisma 的地方，请使用 `database` 客户端代替：
 

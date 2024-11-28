@@ -1,13 +1,14 @@
 ---
-title: Payments
-description: In-app payments and webhooks with Stripe.
+title: 支付功能
+description: 使用 Stripe 实现应用内支付和 Webhook / In-app payments and webhooks with Stripe
+icon: credit-card
 ---
 
-next-forge uses [Stripe](https://stripe.com/) by default for payments and billing. Implementing Stripe in your project is straightforward.
+next-forge 默认使用 [Stripe](https://stripe.com/) 进行支付和计费。在你的项目中实现 Stripe 非常简单。
 
-## In-App Purchases
+## 应用内购买 / In-App Purchases
 
-You can use Stripe anywhere in your app by importing the `stripe` object like so:
+你可以在应用的任何地方通过导入 `stripe` 对象来使用 Stripe：
 
 ```ts page.tsx {1,5}
 import { stripe } from '@repo/payments';
@@ -17,23 +18,23 @@ import { stripe } from '@repo/payments';
 await stripe.prices.list();
 ```
 
-## Webhooks
+## Webhook 处理 / Webhooks
 
-Stripe webhooks are handled in the `POST /webhooks/stripe` route in the `api` app. This route constructs the event and then switches on the event type to determine how to process the event.
+Stripe webhooks 在 `api` 应用的 `POST /webhooks/stripe` 路由中处理。这个路由构建事件，然后根据事件类型来决定如何处理事件。
 
-### Local Development
+### 本地开发 / Local Development
 
-To test webhooks locally, we've configured the Stripe CLI to forward webhooks to your local server. This will start automatically when you run `pnpm dev`.
+要在本地测试 webhooks，我们配置了 Stripe CLI 将 webhooks 转发到你的本地服务器。当你运行 `pnpm dev` 时，这将自动启动。
 
-## Anti-Fraud
+## 反欺诈 / Anti-Fraud
 
-As your app grows, you will inevitably encounter credit card fraud. [Stripe Radar](https://stripe.com/radar) is enabled by default if you integrate payments using their SDK as described above. This provides a set of tools to help you detect and prevent fraud.
+随着你的应用增长，你不可避免地会遇到信用卡欺诈。如果你按照上述方式使用 SDK 集成支付，[Stripe Radar](https://stripe.com/radar) 默认就会启用。这提供了一套工具来帮助你检测和防止欺诈。
 
-Stripe Radar supports more [advanced anti-fraud features](https://docs.stripe.com/disputes/prevention/advanced-fraud-detection) if you embed the Stripe JS script in every page load. This is not enabled by default in next-forge, but you can add it as follows:
+如果你在每次页面加载时嵌入 Stripe JS 脚本，Stripe Radar 支持更多[高级反欺诈功能](https://docs.stripe.com/disputes/prevention/advanced-fraud-detection)。这在 next-forge 中默认没有启用，但你可以按以下步骤添加：
 
 <Steps>
-  <Step title="Edit the layout">
-    Edit `apps/app/app/layout.tsx` and add `<Script src="https://js.stripe.com/v3/" />` after the opening `<html>` tag and before the opening `<body>` tag. You will also need to add `import Script from 'next/script'`
+  <Step title="编辑布局">
+    编辑 `apps/app/app/layout.tsx` 并在开始的 `<html>` 标签之后和开始的 `<body>` 标签之前添加 `<Script src="https://js.stripe.com/v3/" />`。你还需要添加 `import Script from 'next/script'`
 
     ```tsx {5, 13}
     import '@repo/design-system/styles/globals.css';
@@ -58,15 +59,15 @@ Stripe Radar supports more [advanced anti-fraud features](https://docs.stripe.co
     export default RootLayout;
     ```
   </Step>
-  <Step title="Add script to the website">
-    Add the same script to the website in `apps/web/app/layout.tsx`.
+  <Step title="添加脚本到网站">
+    在 `apps/web/app/layout.tsx` 中添加相同的脚本。
   </Step>
-  <Step title="Prevent common fraud patterns with Arcjet">
-    Prevent common fraud patterns by using [Arcjet](/security/application) [IP address analysis](https://docs.arcjet.com/reference/nextjs#ip-analysis) to [block requests from VPNs and proxies](https://docs.arcjet.com/blueprints/vpn-proxy-detection). These are commonly used by fraudsters to hide their location, but have legitimate uses as well so are not blocked by default. You could simply block these users, or you could adjust the checkout process to require approval before processing their payment. 
+  <Step title="使用 Arcjet 防止常见欺诈模式">
+    使用 [Arcjet](/security/application) 的 [IP 地址分析](https://docs.arcjet.com/reference/nextjs#ip-analysis) 来[阻止来自 VPN 和代理的请求](https://docs.arcjet.com/blueprints/vpn-proxy-detection)，防止常见的欺诈模式。欺诈者经常使用这些工具来隐藏他们的位置，但这些工具也有合法用途，所以默认不会被阻止。你可以简单地阻止这些用户，或者调整结账流程，要求在处理他们的付款之前进行审批。
   </Step>
 </Steps>
 
-For example, in `apps/app/app/(authenticated)/layout.tsx` you could add this after the call to `aj.protect()`:
+例如，在 `apps/app/app/(authenticated)/layout.tsx` 中，你可以在调用 `aj.protect()` 之后添加以下代码：
 
 ```ts
 import { redirect } from 'next/navigation';
@@ -78,19 +79,18 @@ if (
   decision.ip.isProxy() ||
   decision.ip.isRelay()
 ) {
-  // The IP is from a hosting provider, VPN, or proxy. We can check the name
-  // of the service and customize the response
+  // IP 来自托管提供商、VPN 或代理。我们可以检查服务名称并自定义响应
   if (decision.ip.hasService()) {
     if (decision.ip.service !== 'Apple Private Relay') {
-      // We trust Apple Private Relay because it requires an active iCloud
-      // subscription, so deny all other VPNs
+      // 我们信任 Apple Private Relay，因为它需要有效的 iCloud 订阅，
+      // 所以拒绝所有其他 VPN
       redirect('/vpn-blocked');
     }
   } else {
-    // The service name is not available, but we still think it's a VPN
+    // 服务名称不可用，但我们仍然认为它是 VPN
     redirect('/vpn-blocked');
   }
 }
 ```
 
-In this case we are providing a friendly redirect to a page that explains why the user is being blocked (which you would need to create). You could also return a more generic error message. [See the Arcjet documentation](https://docs.arcjet.com/blueprints/payment-form#additional-checks) for more advanced examples.
+在这种情况下，我们提供了一个友好的重定向到一个解释用户被阻止原因的页面（你需要创建这个页面）。你也可以返回一个更通用的错误消息。查看 [Arcjet 文档](https://docs.arcjet.com/blueprints/payment-form#additional-checks)了解更多高级示例。

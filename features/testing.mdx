@@ -1,51 +1,52 @@
 ---
-title: Testing
-description: How we've configured testing in next-forge.
+title: 测试
+description: next-forge 中的测试配置 / How we've configured testing in next-forge
+icon: list-check
 ---
 
-next-forge uses [Vitest](https://vitest.dev/) for unit testing. It's a fast and lightweight testing framework that's compatible with Jest's API. Unit tests are run automatically as part of the `build` task in Turborepo.
+next-forge 使用 [Vitest](https://vitest.dev/) 进行单元测试。它是一个快速、轻量级的测试框架，与 Jest 的 API 兼容。单元测试作为 Turborepo 中 `build` 任务的一部分自动运行。
 
-## Running Tests
+## 运行测试 / Running Tests
 
-To run tests, simply execute:
+要运行测试，只需执行：
 
 ```sh Terminal
 pnpm test
 ```
 
-This will run all tests in the `__tests__` folder in each app, however we've only written a couple of tests for `app` project so far.
+这将运行每个应用中 `__tests__` 文件夹中的所有测试，不过目前我们只为 `app` 项目编写了几个测试。
 
-## Adding Tests
+## 添加测试 / Adding Tests
 
-We use [Testing Library](https://testing-library.com/) for our tests. It's a great library that allows you to test your components in a way that's close to how a user would interact with them.
+我们使用 [Testing Library](https://testing-library.com/) 进行测试。这是一个很棒的库，允许你以接近用户交互的方式测试组件。
 
-In the `__tests__` folder, create a new file called `[page].test.tsx` (where `[page]` is the name of the page you want to test). Here's an example of a test for the `home` page:
+在 `__tests__` 文件夹中，创建一个名为 `[page].test.tsx` 的新文件（其中 `[page]` 是你想要测试的页面名称）。以下是 `home` 页面测试的示例：
 
 ```tsx apps/app/__tests__/home.test.tsx
 import { render, screen } from '@testing-library/react';
 import { expect, test } from 'vitest';
 import Page from '../app/(unauthenticated)/home/page';
 
-test('Home Page', () => {
+test('首页 / Home Page', () => {
   render(<Page />);
   expect(
     screen.getByRole('heading', {
       level: 1,
-      name: 'Hello, world!',
+      name: '你好，世界！ / Hello, world!',
     })
   ).toBeDefined();
 });
 ```
 
-## Adding Vitest to other apps
+## 为其他应用添加 Vitest / Adding Vitest to Other Apps
 
-To add Vitest to another app, you'll need to install the dependencies:
+要为其他应用添加 Vitest，你需要安装依赖：
 
 ```sh Terminal
 pnpm install -D vitest @testing-library/react @testing-library/dom --filter [app]
 ```
 
-as well as adding the `@repo/testing` package to the `devDependencies` section of the `package.json` file:
+并在 `package.json` 文件的 `devDependencies` 部分添加 `@repo/testing` 包：
 
 ```json apps/[app]/package.json {2}
 "devDependencies": {
@@ -53,13 +54,13 @@ as well as adding the `@repo/testing` package to the `devDependencies` section o
 }
 ```
 
-Create a new file called `vitest.config.ts` in the root of the app and add the following:
+创建一个名为 `vitest.config.ts` 的新文件在应用根目录下，并添加以下内容：
 
 ```ts apps/[app]/vitest.config.ts
 export { default } from '@repo/testing';
 ```
 
-Then, create a new file in the `__tests__` folder in the relevant app and add a `test` command to the `package.json` file:
+然后，在相关应用的 `__tests__` 文件夹中创建一个新文件，并在 `package.json` 文件中添加一个 `test` 命令：
 
 ```json apps/[app]/package.json {3}
 {
@@ -69,6 +70,6 @@ Then, create a new file in the `__tests__` folder in the relevant app and add a 
 }
 ```
 
-Turborepo will automatically pick up on the new `test` script and run the tests.
+Turborepo 将自动检测到新的 `test` 脚本并运行测试。
 
-Then, just follow the instructions above to write tests.
+然后，只需按照上述说明编写测试即可。

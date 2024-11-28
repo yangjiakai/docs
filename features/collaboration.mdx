@@ -1,6 +1,7 @@
 ---
-title: Collaboration
-description: next-forge is multiplayer out of the box.
+title: 协作功能
+description: next-forge 内置多人协作功能 / next-forge is multiplayer out of the box.
+icon: users
 ---
 
 import { Authors } from '/snippets/authors.mdx';
@@ -26,22 +27,22 @@ import { Authors } from '/snippets/authors.mdx';
 }]} />
 
 <Frame>
-  <img src="/images/collaboration.png" alt="next-forge uses Liveblocks." />
+  <img src="/images/collaboration.png" alt="next-forge 使用 Liveblocks。 / next-forge uses Liveblocks." />
 </Frame>
 
-next-forge maintains a `collaboration` package designed to provide real-time collaborative features to your apps. By default, we use [Liveblocks](https://liveblocks.io) as our collaboration engine. To showcase what you can do with this package, we've built a simple collaborative experience in the `app` application, featuring an avatar stack and live cursors.
+next-forge 维护着一个 `collaboration` 包，旨在为你的应用提供实时协作功能。默认情况下，我们使用 [Liveblocks](https://liveblocks.io) 作为我们的协作引擎。为了展示这个包的功能，我们在 `app` 应用中构建了一个简单的协作体验，包括头像堆叠和实时光标。
 
-<Tip>Collaboration is enabled by the existence of the `LIVEBLOCKS_SECRET` environment variable.</Tip>
+<Tip>协作功能通过 `LIVEBLOCKS_SECRET` 环境变量启用。 / Collaboration is enabled by the existence of the `LIVEBLOCKS_SECRET` environment variable.</Tip>
 
-## How it works
+## 工作原理 / How It Works
 
-Liveblocks relies on the concept of rooms, digital spaces where people collaborate. To set this up, you need to [authenticate your users](https://liveblocks.io/docs/authentication/access-token/nextjs), and [add the correct providers](https://liveblocks.io/docs/get-started/nextjs), however next-forge has already integrated this, meaning you can start building your collaborative application immediately.
+Liveblocks 依赖于房间的概念，这是人们协作的数字空间。要设置这个，你需要[验证你的用户](https://liveblocks.io/docs/authentication/access-token/nextjs)，并[添加正确的提供者](https://liveblocks.io/docs/get-started/nextjs)，但是 next-forge 已经集成了这些，这意味着你可以立即开始构建你的协作应用。
 
-We've also wired up two key props for the Liveblocks provider, `resolveUsers` and `resolveMentionSuggestions`, which are used to resolve the users and mention suggestions respectively.
+我们还为 Liveblocks 提供者接入了两个关键属性：`resolveUsers` 和 `resolveMentionSuggestions`，它们分别用于解析用户和提及建议。
 
-## Usage
+## 使用方法 / Usage
 
-Liveblocks provides a number of hooks making it easy to add real-time presence and document storage to your app. For example, [`useOthers`]() returns which users are currently connected, helpful for building avatars stacks and multiplayer cursors.
+Liveblocks 提供了许多钩子，使得向你的应用添加实时在线状态和文档存储变得容易。例如，[`useOthers`]() 返回当前连接的用户，这对于构建头像堆叠和多人光标很有帮助。
 
 ```tsx toolbar-avatars.tsx
 import { useOthers, useSelf } from "@liveblocks/react/suspense";
@@ -51,65 +52,93 @@ export function ToolbarAvatars() {
   const me = useSelf();
 
   return (
-    <div>
-      {/* Your avatar */}
-      <Avatar src={me.info.avatar} name={me.info.name} />
-
-      {/* Everyone else's avatars */}
+    <div className="flex items-center gap-2">
       {others.map(({ connectionId, info }) => (
-        <Avatar key={connectionId} src={info.avatar} name={info.name} />
+        <Avatar
+          key={connectionId}
+          src={info?.avatar}
+          alt={info?.name}
+          size="sm"
+        />
+      ))}
+      {me && (
+        <Avatar
+          src={me.info?.avatar}
+          alt={me.info?.name}
+          size="sm"
+        />
       )}
     </div>
   );
 }
 ```
 
-### Multiplayer documents
+### 实时协作功能 / Real-Time Features
 
-You can take your collaborative app a step further, and set up multiplayer document state with [`useStorage`](https://liveblocks.io/docs/api-reference/liveblocks-react#useStorage) and [`useMutation`](https://liveblocks.io/docs/api-reference/liveblocks-react#useMutation). This is ideal for creating custom experiences, such as a a multiplayer drawing panel, spreadsheet, or just a simple shared input and that anyone can edit.
+#### 在线状态 / Presence
 
-```tsx collaborative-input.tsx
-import { useStorage, useMutation } from "@liveblocks/react/suspense";
+使用 [`usePresence`](https://liveblocks.io/docs/api-reference/liveblocks-react#usePresence) 和 [`useBroadcastEvent`](https://liveblocks.io/docs/api-reference/liveblocks-react#useBroadcastEvent) 来构建实时协作功能：
 
-function CollaborativeInput() {
-  // Get the input's value
-  const inputValue = useStorage((root) => root.inputValue);
-  
-  // Set the input's value
-  const setValue = useMutation(({ storage }), newValue) => {
-    storage.set("inputValue", newValue);
-  }, []);
-  
-  return <input value={inputValue} onChange={(e) => setValue(e.target.value)} />;
+```tsx cursor.tsx
+import { usePresence } from "@liveblocks/react";
+
+export function Cursor() {
+  const [{ cursor }, updatePresence] = usePresence();
+
+  return (
+    <div
+      style={{
+        transform: `translate(${cursor.x}px, ${cursor.y}px)`,
+      }}
+      className="absolute top-0 left-0 w-4 h-4"
+    />
+  );
 }
 ```
 
-### Commenting
+#### 存储 / Storage
 
-Liveblocks also provides ready-made customizable components for adding collaboration, such as [`Thread`](https://liveblocks.io/docs/api-reference/liveblocks-react-ui#Thread) and [`Composer`](https://liveblocks.io/docs/api-reference/liveblocks-react-ui#Composer).
+使用 [`useStorage`](https://liveblocks.io/docs/api-reference/liveblocks-react#useStorage) 来存储和同步数据：
 
-```tsx comments.tsx
-import { useThreads } from "@liveblocks/react/suspense";
-import { Thread, Composer } from "@liveblocks/react-ui";
+```tsx canvas.tsx
+import { useStorage } from "@liveblocks/react";
 
-function Comments() {
-  // Get each thread of comments and render them
-  const { threads } = useThreads();
+export function Canvas() {
+  const shapes = useStorage((root) => root.shapes);
 
   return (
     <div>
-      {threads.map((thread) => (
-        <Thread key={thread.id} thread={thread} />
+      {shapes.map((shape) => (
+        <Shape key={shape.id} {...shape} />
       ))}
-      <Composer />
     </div>
   );
 }
 ```
 
-### Collaborative editing
+#### 线程和评论 / Threads and Comments
 
-To add a rich-text editor with full collaborative editing and floating comments, you can set up a [Tiptap](https://liveblocks.io/docs/get-started/nextjs-tiptap) or [Lexical](https://liveblocks.io/docs/get-started/nextjs-lexical) editor in a few lines of code.
+使用 [`useThreads`](https://liveblocks.io/docs/api-reference/liveblocks-react#useThreads) 来添加评论功能：
+
+```tsx editor.tsx
+import { useThreads } from "@liveblocks/react";
+
+export function Editor() {
+  const { threads } = useThreads();
+
+  return (
+    <div>
+      {threads.map((thread) => (
+        <Thread key={thread.id} {...thread} />
+      ))}
+    </div>
+  );
+}
+```
+
+### 多人编辑 / Collaborative Editing
+
+要添加一个富文本编辑器，具有全面的协作编辑和浮动评论功能，你可以在几行代码中设置一个 [Tiptap](https://liveblocks.io/docs/get-started/nextjs-tiptap) 或 [Lexical](https://liveblocks.io/docs/get-started/nextjs-lexical) 编辑器。
 
 ```tsx collaborative-editor.tsx
 import { useLiveblocksExtension, FloatingComposer, FloatingThreads } from "@liveblocks/react-tiptap";
@@ -120,7 +149,7 @@ export function Editor() {
   const { threads } = useThreads();
   const liveblocks = useLiveblocksExtension();
 
-  // Set up your multiplayer text editor
+  // 设置你的多人文本编辑器
   const editor = useEditor({
     extensions: [
       liveblocks,
@@ -142,9 +171,9 @@ export function Editor() {
 }
 ```
 
-### Notifications
+### 通知 / Notifications
 
-Liveblocks also provides [notification components](https://liveblocks.io/docs/api-reference/liveblocks-react-ui#InboxNotificationList), meaning you can send in-app notifications to users that are tagged in comments, are mentioned in the text editor, or for any custom purpose.
+Liveblocks 还提供了 [通知组件](https://liveblocks.io/docs/api-reference/liveblocks-react-ui#InboxNotificationList)，这意味着你可以向用户发送应用内通知，例如当他们被评论中提及时，或者为任何自定义目的。
 
 ```tsx notifications.tsx
 import { useInboxNotifications } from "@liveblocks/react/suspense";
@@ -154,7 +183,7 @@ import {
 } from "@liveblocks/react-ui";
 
 export function CollaborativeApp() {
-  // Get each notification for the current user
+  // 获取当前用户的每个通知
   const { inboxNotifications } = useInboxNotifications();
 
   return (
@@ -170,13 +199,13 @@ export function CollaborativeApp() {
 }
 ```
 
-### Infrastructure
+### 基础设施 / Infrastructure
 
-Liveblocks not only provides these features, but it also has:
-- [Browser DevTools](https://liveblocks.io/devtools) to help you build your app.
-- [REST APIs](https://liveblocks.io/docs/api-reference/rest-api-endpoints) for sever-side changes.
-- [Node.js SDK](https://liveblocks.io/docs/api-reference/liveblocks-node) for using the REST APIs with TypeScript.
-- [Webhooks](https://liveblocks.io/docs/platform/webhooks) for triggering user-driven events.
-- [Dashboard](https://liveblocks.io/docs/platform/projects) to help with bug spotting and analytics.
+Liveblocks 不仅提供了这些功能，还有：
+- [浏览器 DevTools](https://liveblocks.io/devtools) 来帮助你构建应用。
+- [REST APIs](https://liveblocks.io/docs/api-reference/rest-api-endpoints) 用于服务器端更改。
+- [Node.js SDK](https://liveblocks.io/docs/api-reference/liveblocks-node) 用于使用 REST APIs 与 TypeScript。
+- [Webhooks](https://liveblocks.io/docs/platform/webhooks) 用于触发用户驱动的事件。
+- [Dashboard](https://liveblocks.io/docs/platform/projects) 来帮助你调试和分析应用。
 
-Learn more by checking out the Liveblocks [documentation](https://liveblocks.io/docs), [examples](https://liveblocks.io/examples), and [interactive tutorial](https://liveblocks.io/docs/tutorial/react/getting-started/welcome).
+通过查看 Liveblocks 的 [文档](https://liveblocks.io/docs)、[示例](https://liveblocks.io/examples) 和 [交互式教程](https://liveblocks.io/docs/tutorial/react/getting-started/welcome) 来了解更多信息。

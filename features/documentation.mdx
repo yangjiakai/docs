@@ -1,6 +1,7 @@
 ---
-title: Documentation
-description: How the documentation is configured in next-forge.
+title: 文档系统
+description: next-forge 中的文档系统配置 / How the documentation is configured in next-forge.
+icon: book-open
 ---
 
 import { Authors } from '/snippets/authors.mdx';
@@ -25,29 +26,29 @@ import { Authors } from '/snippets/authors.mdx';
   },
 }]} />
 
-next-forge uses [Mintlify](https://mintlify.com) to generate beautiful docs. Each page is a `.mdx` file, written in Markdown, with built-in UI components and API playground.
+next-forge 使用 [Mintlify](https://mintlify.com) 来生成精美的文档。每个页面都是一个 `.mdx` 文件，使用 Markdown 编写，内置了 UI 组件和 API 交互功能。
 
-## Creating a new page
+## 创建新页面 / Creating a New Page
 
-To create a new documentation page, add a new MDX file to the `apps/docs` directory. The file name will be used as the slug for the page and the frontmatter will be used to generate the docs page. For example:
+要创建新的文档页面，只需在 `apps/docs` 目录中添加一个新的 MDX 文件。文件名将用作页面的 slug，frontmatter 将用于生成文档页面。例如：
 
 ```mdx apps/docs/hello-world.mdx
 ---
-title: 'Quickstart'
-description: 'Start building modern documentation in under five minutes.'
+title: '快速开始 / Quickstart'
+description: '在五分钟内开始构建现代文档 / Start building modern documentation in under five minutes.'
 ---
 ```
 
-Learn more supported [meta tags](https://mintlify.com/docs/page).
+了解更多支持的[元标签 / Meta Tags](https://mintlify.com/docs/page)。
 
-## Adding a page to the navigation
+## 添加页面到导航 / Adding a Page to Navigation
 
-To add a page to the sidebar, you'll need to define it in the `mint.json` file in the `apps/docs` directory. From the previous example, here's how you can add it to the sidebar:
+要将页面添加到侧边栏，你需要在 `apps/docs` 目录的 `mint.json` 文件中定义它。基于前面的示例，以下是如何将其添加到侧边栏：
 
 ```mdx mint.json {2-5}
 "navigation": [
   {
-    "group": "Getting Started",
+    "group": "入门指南 / Getting Started",
     "pages": ["hello-world"]
   },
   {
@@ -56,14 +57,14 @@ To add a page to the sidebar, you'll need to define it in the `mint.json` file i
 ]
 ```
 
-## Advanced
+## 高级功能 / Advanced
 
-You can build the docs you want with advanced features.
+你可以使用高级功能构建你想要的文档。
 
-<Card title="Global Settings" icon="wrench" href="https://mintlify.com/docs/settings/global" horizontal>
-  Customize your documentation using the mint.json file
+<Card title="全局设置 / Global Settings" icon="wrench" href="https://mintlify.com/docs/settings/global" horizontal>
+  使用 mint.json 文件自定义你的文档
 </Card>
 
-<Card title="Components" icon="shapes" href="https://mintlify.com/docs/content/components" horizontal>
-  Explore the variety of components available
+<Card title="组件 / Components" icon="shapes" href="https://mintlify.com/docs/content/components" horizontal>
+  探索可用的组件
 </Card>

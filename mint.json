@@ -70,6 +70,25 @@
       "pages": ["structure/apps", "structure/package"]
     },
     {
+      "group": "功能特性",
+      "icon": "puzzle",
+      "pages": [
+        "features/blog",
+        "features/bundle-analysis",
+        "features/collaboration",
+        "features/cron",
+        "features/documentation",
+        "features/env",
+        "features/flags",
+        "features/formatting",
+        "features/payments",
+        "features/storage",
+        "features/storybook",
+        "features/testing",
+        "features/webhooks"
+      ]
+    },
+    {
       "group": "AI",
       "icon": "robot",
       "pages": ["ai/overview"]
@@ -120,9 +139,6 @@
         "design-system/typography"
       ]
     },
-
-
- 
     {
       "group": "数据库",
       "icon": "database",
@@ -159,7 +175,6 @@
         "observability/uptime"
       ]
     }
-   
   ],
   "footerSocials": {
     "x": "https://x.com/mintlify",

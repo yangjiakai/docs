@@ -1,24 +1,25 @@
 ---
-title: Feature Flags
-description: Control access to features in your application.
+title: 功能开关
+description: 控制应用程序中的功能访问 / Control access to features in your application
+icon: flag
 ---
 
-Feature flags (also known as feature toggles) allow you to control access to specific features in your application. next-forge provides a simple but powerful feature flag system that can be used to:
+功能开关（也称为功能标志）允许你控制应用程序中特定功能的访问。next-forge 提供了一个简单但强大的功能开关系统，可用于：
 
-- Roll out features gradually to users
-- A/B test new functionality
-- Enable/disable features based on user segments
-- Control access to beta or experimental features
+- 逐步向用户推出功能
+- 对新功能进行 A/B 测试
+- 基于用户群体启用/禁用功能
+- 控制对测试版或实验性功能的访问
 
-## How it works
+## 工作原理 / How it works
 
-next-forge implements feature flags using Vercel's [Flags SDK](https://vercel.com/docs/workflow-collaboration/feature-flags/flags-pattern-nextjs), which is mostly an architectural pattern for working with feature flags. This setup exists in the `@repo/feature-flags` package, so you can import and use it in as many projects as you'd like.
+next-forge 使用 Vercel 的 [Flags SDK](https://vercel.com/docs/workflow-collaboration/feature-flags/flags-pattern-nextjs) 实现功能开关，这主要是一个用于处理功能开关的架构模式。这个设置存在于 `@repo/feature-flags` 包中，因此你可以在任意多个项目中导入和使用它。
 
-We've created an intelligent function called `createFlag` that you can use to create new flags, complete with authentication, PostHog integration and Vercel Toolbar overrides without the hassle.
+我们创建了一个智能函数 `createFlag`，你可以用它来创建新的标志，它完整地集成了身份验证、PostHog 集成和 Vercel Toolbar 覆盖功能，无需额外配置。
 
-## Adding a new flag
+## 添加新标志 / Adding a new flag
 
-To add a new flag, simply create a feature flag in PostHog and then modify the feature flags index file. Let's add a new flag called `showAnalyticsFeature` that will be enabled for all users:
+要添加新标志，只需在 PostHog 中创建一个功能标志，然后修改功能标志索引文件。让我们添加一个名为 `showAnalyticsFeature` 的新标志，它将对所有用户启用：
 
 ```ts packages/feature-flags/index.ts {4}
 import { createFlag } from './lib/create-flag';
@@ -27,11 +28,11 @@ export const showBetaFeature = createFlag('showBetaFeature');
 export const showAnalyticsFeature = createFlag('showAnalyticsFeature');
 ```
 
-Make sure the key you're using matches the key in PostHog exactly.
+确保你使用的键与 PostHog 中的键完全匹配。
 
-## Usage in your application
+## 在应用中使用 / Usage in your application
 
-To use the flag in your application, simply import it from the `@repo/feature-flags` package and use it like a normal boolean value.
+要在应用程序中使用标志，只需从 `@repo/feature-flags` 包中导入它，并像使用普通布尔值一样使用它。
 
 ```tsx page.tsx
 import { showAnalyticsFeature } from '@repo/feature-flags';
@@ -44,15 +45,15 @@ export default function Page() {
     notFound();
   }
 
-  return <div>Analytics feature is enabled</div>;
+  return <div>分析功能已启用</div>;
 }
 ```
 
-Because feature flags are tied to the user, they only work if the user is signed in. Otherwise, the flag will always return `false`.
+因为功能标志与用户绑定，所以它们只在用户登录时才有效。否则，标志将始终返回 `false`。
 
-## Overriding flags in development
+## 覆盖开发中的标志 / Overriding flags in development
 
-You can override flags in development by using the Vercel Toolbar. Simply open the toolbar by clicking the "Flag" icon in the top right and then selecting the flag you'd like to override.
+你可以使用 Vercel Toolbar 覆盖开发中的标志。只需打开工具栏，点击右上角的“标志”图标，然后选择你想要覆盖的标志。
 
 <Frame>
   <img src="/images/vercel-toolbar.png" alt="Vercel Toolbar" />

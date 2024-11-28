@@ -1,19 +1,20 @@
 ---
-title: Webhooks
-description: Send webhooks to your users using Svix.
+title: Webhook 功能
+description: 使用 Svix 向用户发送 webhooks / Send webhooks to your users using Svix
+icon: webhook
 ---
 
-next-forge supports sending webhooks to your users using [Svix](https://www.svix.com/). Svix is an enterprise-ready webhooks sending service.
+next-forge 支持使用 [Svix](https://www.svix.com/) 向用户发送 webhooks。Svix 是一个企业级的 webhook 发送服务。
 
-## How it works
+## 工作原理 / How It Works
 
-next-forge uses the Svix API in a stateless manner. The organization ID from the authenticated user is used as the Svix application UID, which is created automatically when the first message is sent.
+next-forge 以无状态的方式使用 Svix API。认证用户的组织 ID 用作 Svix 应用程序 UID，在发送第一条消息时自动创建。
 
-## Usage
+## 使用方法 / Usage
 
-### Send a webhook
+### 发送 webhook / Send a Webhook
 
-To send a webhook, simply use the `send` function from the `@repo/webhooks` package:
+要发送 webhook，只需使用 `@repo/webhooks` 包中的 `send` 函数：
 
 ```tsx
 import { webhooks } from '@repo/webhooks';
@@ -25,11 +26,11 @@ await webhooks.send('invoice.created', {
 });
 ```
 
-### Add webhook endpoints
+### 添加 webhook 端点 / Add Webhook Endpoints
 
-Svix provides a pre-built [consumer application portal](https://docs.svix.com/app-portal), where users add endpoints and manage everything related to their webhooks subscriptions. App portal access is based on short-lived sessions using special magic links, and can be [embed in an iframe in your dashboard](https://docs.svix.com/app-portal#embedding-in-a-react-application).
+Svix 提供了一个预构建的[消费者应用程序门户](https://docs.svix.com/app-portal)，用户可以在其中添加端点并管理所有与其 webhook 订阅相关的内容。应用程序门户访问基于使用特殊魔法链接的短期会话，并且可以[嵌入到你的仪表板的 iframe 中](https://docs.svix.com/app-portal#embedding-in-a-react-application)。
 
-To get access to the application portal, use the `getAppPortal` function from `@repo/webhooks` and use the returned URL in an `iframe` on your dashboard.
+要访问应用程序门户，使用 `@repo/webhooks` 中的 `getAppPortal` 函数，并在仪表板上的 `iframe` 中使用返回的 URL。
 
 ```tsx
 import { webhooks } from '@repo/webhooks';
@@ -41,4 +42,4 @@ return (
 );
 ```
 
-We have a prebuilt page at `/webhooks` that you can use as a starting point.
+我们在 `/webhooks` 有一个预构建的页面，你可以用它作为起点。

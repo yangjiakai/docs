@@ -11,14 +11,14 @@ next-forge 旨在提供一个健壮的、类型安全的数据库客户端，让
 - 处理数据库迁移
 - 提供强大的查询功能，并完全支持 TypeScript
 
-## 默认配置
+## 默认配置 / Default Configuration
 
 默认情况下，next-forge 使用 [Neon](https://neon.tech) 作为数据库提供商，使用 [Prisma](https://prisma.io) 作为 ORM。但是，如果你愿意，可以轻松切换到其他提供商，例如：
 
 - 你可以使用其他 ORM，如 [Drizzle](/database/drizzle)、Kysely 或任何其他类型安全的 ORM
 - 你可以使用其他数据库提供商，如 [PlanetScale](/database/planetscale)、[Prisma Postgres](/database/prisma-postgres)、Supabase 或任何其他 PostgreSQL/MySQL 提供商
 
-## 使用方法
+## 使用方法 / Usage
 
 数据库和 ORM 配置位于 `@repo/database` 中。你可以在任何服务器端组件中导入此包，如下所示：
 
@@ -32,11 +32,11 @@ const Page = async () => {
 }
 ```
 
-## 架构定义
+## 架构定义 / Schema Definition
 
 数据库架构在 `packages/database/prisma/schema.prisma` 中定义。此架构文件使用 Prisma 的架构定义语言来描述你的数据库表、关系和类型。
 
-### 添加新模型
+### 添加新模型 / Adding a New Model
 
 假设我们想添加一个名为 `Post` 的新模型来描述博客文章。博客内容将采用 JSON 格式，由类似 [Tiptap](https://tiptap.dev/) 的库生成。为此，我们需要在架构中添加以下内容：
 
@@ -50,7 +50,7 @@ model Post {
 }
 ```
 
-### 部署更改
+### 部署更改 / Deploying Changes
 
 要部署架构更改，请运行以下命令：
 
@@ -64,7 +64,7 @@ pnpm migrate
 - `npx prisma generate` 生成 Prisma 客户端
 - `npx prisma db push` 将架构更改推送到数据库
 
-## Prisma Studio
+## Prisma Studio / Prisma Studio
 
 next-forge 包含 Prisma Studio，这是一个数据库可视化编辑器。要启动它，请运行以下命令：
 
@@ -72,11 +72,11 @@ next-forge 包含 Prisma Studio，这是一个数据库可视化编辑器。要�
 pnpm dev --filter studio
 ```
 
-## 数据库选项
+## 数据库选项 / Database Options
 
 next-forge 支持多种数据库选项。每个选项都有其优点和用例：
 
-### Drizzle
+### Drizzle / Drizzle
 
 [Drizzle](/database/drizzle) 是一个轻量级的 TypeScript ORM，专注于类型安全和开发者体验。它支持多种数据库，包括 PostgreSQL、MySQL 和 SQLite。
 
@@ -91,7 +91,7 @@ next-forge 支持多种数据库选项。每个选项都有其优点和用例：
 - 社区较小
 - 文档有限
 
-### PlanetScale
+### PlanetScale / PlanetScale
 
 [PlanetScale](/database/planetscale) 是一个无服务器的 MySQL 平台，专注于可扩展性和开发者体验。
 
@@ -106,7 +106,7 @@ next-forge 支持多种数据库选项。每个选项都有其优点和用例：
 - 供应商锁定
 - 仅支持 MySQL
 
-### Prisma + Postgres
+### Prisma + Postgres / Prisma + Postgres
 
 [Prisma + Postgres](/database/prisma-postgres) 是一个流行的组合，提供了强大的 ORM 功能和可靠的数据库。
 
@@ -136,7 +136,7 @@ next-forge 支持多种数据库选项。每个选项都有其优点和用例：
 - 功能有限
 - 仅支持 SQLite
 
-## 选择数据库
+## 选择数据库 / Selecting a Database
 
 选择数据库时，考虑以下因素：
 
@@ -160,7 +160,7 @@ next-forge 支持多种数据库选项。每个选项都有其优点和用例：
    - 你需要什么样的定价模型？
    - 你需要什么样的支持级别？
 
-## 迁移策略
+## 迁移策略 / Migration Strategy
 
 如果你需要在数据库之间迁移，我们建议以下步骤：
 

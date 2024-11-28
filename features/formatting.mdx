@@ -1,26 +1,27 @@
 ---
-title: Formatting
-description: Code formatting, linting and more.
+title: 代码格式化
+description: 代码格式化、代码检查等 / Code formatting, linting and more
+icon: code
 ---
 
-next-forge uses [Ultracite](https://ultracite.dev) for code formatting and linting. Ultracite is a preconfigured setup of [Biome](https://biomejs.dev), a high-performance Rust-based toolchain which includes a formatter, linter, and more for JavaScript and TypeScript.
+next-forge 使用 [Ultracite](https://ultracite.dev) 进行代码格式化和代码检查。Ultracite 是一个预配置的 [Biome](https://biomejs.dev) 设置，Biome 是一个基于 Rust 的高性能工具链，包括格式化器、代码检查器等，用于 JavaScript 和 TypeScript。
 
-## Benefits
+## 优势 / Benefits
 
-Ultracite provides several benefits:
+Ultracite 提供了以下优势：
 
-- <Icon icon="check" iconType="solid" /> Zero configuration required - works out of the box
-- <Icon icon="check" iconType="solid" /> Extremely fast performance
-- <Icon icon="check" iconType="solid" /> Consistent code style across your project
-- <Icon icon="check" iconType="solid" /> Built-in linting rules
-- <Icon icon="check" iconType="solid" /> TypeScript support
+- <Icon icon="check" iconType="solid" /> 零配置 - 开箱即用 / Zero configuration required - works out of the box
+- <Icon icon="check" iconType="solid" /> 极快的性能 / Extremely fast performance
+- <Icon icon="check" iconType="solid" /> 项目中的一致代码风格 / Consistent code style across your project
+- <Icon icon="check" iconType="solid" /> 内置代码检查规则 / Built-in linting rules
+- <Icon icon="check" iconType="solid" /> TypeScript 支持 / TypeScript support
 
-## Usage
+## 使用方法 / Usage
 
-The formatter and linter are automatically configured in your project and will run on save. If you want to manually run them across your project, you can run the following commands:
+格式化器和代码检查器在你的项目中自动配置，并将在保存时运行。如果你想手动在项目中运行它们，可以运行以下命令：
 
 ```sh Terminal
 npx ultracite
 ```
 
-This will check and fix all files in the current directory.
+这将检查并修复当前目录中的所有文件。

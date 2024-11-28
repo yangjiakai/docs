@@ -1,13 +1,14 @@
 ---
-title: Storage
-description: How to store files in your application.
+title: 存储功能
+description: 如何在应用程序中存储文件 / How to store files in your application
+icon: folder
 ---
 
-next-forge has a `storage` package that provides a simple wrapper around [Vercel Blob](https://vercel.com/docs/storage/vercel-blob) for file storage.
+next-forge 有一个 `storage` 包，它为文件存储提供了一个简单的 [Vercel Blob](https://vercel.com/docs/storage/vercel-blob) 封装。
 
-## Usage
+## 使用方法 / Usage
 
-To use the `storage` package using Server Actions, follow the instructions on [Vercel's server action documentation](https://vercel.com/docs/storage/vercel-blob/server-upload#upload-a-file-using-server-actions).
+要使用 Server Actions 中的 `storage` 包，请按照 [Vercel 的服务器操作文档](https://vercel.com/docs/storage/vercel-blob/server-upload#upload-a-file-using-server-actions)中的说明进行操作。
 
 ```tsx page.tsx
 import { put } from '@repo/storage';
@@ -26,15 +27,15 @@ export async function Form() {
  
   return (
     <form action={uploadImage}>
-      <label htmlFor="image">Image</label>
+      <label htmlFor="image">图片 / Image</label>
       <input type="file" id="image" name="image" required />
-      <button>Upload</button>
+      <button>上传 / Upload</button>
     </form>
   );
 }
 ```
 
-For client side usage, check out the [Vercel's client upload documentation](https://vercel.com/docs/storage/vercel-blob/client-upload).
+对于客户端使用，请查看 [Vercel 的客户端上传文档](https://vercel.com/docs/storage/vercel-blob/client-upload)。
 
 ```tsx page.tsx
 'use client';
@@ -48,11 +49,11 @@ export default function AvatarUploadPage() {
   const [blob, setBlob] = useState<PutBlobResult | null>(null);
   return (
     <>
-      <h1>Upload Your Avatar</h1>
+      <h1>上传你的头像 / Upload Your Avatar</h1>
  
       <form
-        onSubmit={async (event) => {
-          event.preventDefault();
+        onSubmit={async (e) => {
+          e.preventDefault();
  
           if (!inputFileRef.current?.files) {
             throw new Error('No file selected');
@@ -69,7 +70,7 @@ export default function AvatarUploadPage() {
         }}
       >
         <input name="file" ref={inputFileRef} type="file" required />
-        <button type="submit">Upload</button>
+        <button type="submit">上传 / Upload</button>
       </form>
       {blob && (
         <div>
@@ -79,4 +80,3 @@ export default function AvatarUploadPage() {
     </>
   );
 }
-```

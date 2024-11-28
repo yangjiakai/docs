@@ -1,5 +1,5 @@
 ---
-title: 切换到 Drizzle
+title: 使用 Drizzle
 description: 如何将 ORM 从 Prisma 切换到 Drizzle
 icon: database
 ---
@@ -33,7 +33,7 @@ Drizzle 是一个出色的、类型安全的 ORM，其受欢迎程度正在快�
 
 在这里，我们假设你已经有一个正在运行的 Neon 数据库，并介绍第二个选项。
 
-## 1. 在 `@repo/database` 中替换所需的依赖项
+## 1. 在 `@repo/database` 中替换所需的依赖项 / Switching Dependencies
 
 卸载现有依赖项...
 
@@ -48,7 +48,7 @@ pnpm add drizzle-orm --filter database
 pnpm add -D drizzle-kit --filter database
 ```
 
-## 2. 更新数据库连接代码
+## 2. 更新数据库连接代码 / Update Database Connection
 
 删除 `@repo/database/index.ts` 中的所有内容，并替换为以下内容：
 
@@ -64,7 +64,7 @@ const client = neon(env.DATABASE_URL);
 export const database = drizzle({ client });
 ```
 
-## 3. 创建 `drizzle.config.ts` 文件
+## 3. 创建 `drizzle.config.ts` 文件 / Create a `drizzle.config.ts` File
 
 接下来我们将创建一个 Drizzle 配置文件，该文件由 Drizzle Kit 使用，包含有关数据库连接、迁移文件夹和架构文件的所有信息。在 `packages/database` 目录中创建一个 `drizzle.config.ts` 文件，内容如下：
 
@@ -82,7 +82,7 @@ export default defineConfig({
 });
 ```
 
-## 4. 生成架构文件
+## 4. 生成架构文件 / Generate Schema File
 
 Drizzle 使用架构文件来定义数据库表。我们可以从现有数据库生成架构文件，而不是从头开始创建。在 `packages/database` 文件夹中，运行以下命令来生成架构文件：
 
@@ -92,7 +92,7 @@ npx drizzle-kit pull
 
 这将从数据库中提取架构，创建一个包含表定义和其他一些文件的 `schema.ts` 文件。
 
-## 5. 更新查询
+## 5. 更新查询 / Update Queries
 
 现在你可以更新查询以使用 Drizzle ORM。
 
@@ -111,7 +111,7 @@ const App = async () => {
 export default App;
 ```
 
-## 6. 删除 Prisma Studio
+## 6. 删除 Prisma Studio / Delete Prisma Studio
 
 你也可以删除现在不再使用的 Prisma Studio 应用程序，位于 `apps/studio`：
 
