@@ -1,24 +1,25 @@
 ---
-title: Overview
-description: We use Clerk to handle authentication, user and organization management.
+title: 概述
+description: 我们使用 Clerk 处理身份验证、用户和组织管理
+icon: shield-check
 ---
 
-next-forge manages authentication through the use of a `auth` package. By default, this package is a wrapper around [Clerk](https://clerk.com/) which provides a complete authentication and user management solution that integrates seamlessly with Next.js applications.
+next-forge 通过使用 `auth` 包来管理身份验证。默认情况下，这个包是 [Clerk](https://clerk.com/) 的封装器，它提供了一个完整的身份验证和用户管理解决方案，可以与 Next.js 应用程序无缝集成。
 
-## In-App
+## 应用内集成
 
-The `@repo/auth` package exposes an `AuthProvider`, however you don't need to use this directly. The [`DesignSystemProvider`](/design-system/provider) includes all relevant providers and higher-order components.
+`@repo/auth` 包暴露了一个 `AuthProvider`，但你不需要直接使用它。[`DesignSystemProvider`](/design-system/provider) 包含了所有相关的提供者和高阶组件。
 
-From here, you can use all the pre-built components and hooks provided by Clerk. To demonstrate this, we've added the `<OrganizationSwitcher>` and `<UserButton>` components to the sidebar, as well as built out the Sign In and Sign Up pages.
+从这里开始，你可以使用 Clerk 提供的所有预构建组件和钩子。为了演示这一点，我们在侧边栏中添加了 `<OrganizationSwitcher>` 和 `<UserButton>` 组件，并构建了登录和注册页面。
 
 <Frame>
-  <img src="/images/sign-in.png" alt="Sign In Page" />
+  <img src="/images/sign-in.png" alt="登录页面" />
 </Frame>
 
 ## Webhooks
 
-Clerk uses webhooks to handle authentication events. These are handled in the `POST /webhooks/clerk` route in the `api` app. Make sure you enable the webhook events you need in your Clerk project settings.
+Clerk 使用 webhooks 处理身份验证事件。这些事件在 `api` 应用的 `POST /webhooks/clerk` 路由中处理。确保在 Clerk 项目设置中启用了你需要的 webhook 事件。
 
-### Local Development
+### 本地开发
 
-Currently there's no way to easily test Clerk webhooks locally, so you'll have to test them in a staging environment. This means deploying your app to a "production" state Vercel project with development environment variables e.g. `staging-api.example.com`. Then you can add this URL to your Clerk project's webhook settings.
+目前没有简单的方法在本地测试 Clerk webhooks，所以你需要在暂存环境中测试它们。这意味着需要将你的应用部署到带有开发环境变量的 Vercel 项目的"生产"状态，例如 `staging-api.example.com`。然后你可以将此 URL 添加到 Clerk 项目的 webhook 设置中。

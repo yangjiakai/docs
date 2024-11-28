@@ -1,0 +1,82 @@
+---
+title: 错误捕获
+description: 如何捕获和监控应用程序错误
+icon: triangle-exclamation
+---
+
+我们使用 [Sentry](https://sentry.io/) 来捕获和监控错误。它已经预先配置好，可以在所有应用程序中使用。
+
+## 设置
+
+首先，你需要在 [Sentry](https://sentry.io/) 上创建一个账户和项目。然后，将你的 DSN 添加到每个应用程序的环境变量中：
+
+```sh .env.local
+NEXT_PUBLIC_SENTRY_DSN="https://xxx@xxx.ingest.sentry.io/xxx"
+```
+
+## 错误边界
+
+我们已经在 `@repo/ui` 包中创建了一个通用的错误边界组件。它会捕获任何未处理的错误并向用户显示一个友好的错误消息。
+
+```tsx
+import { ErrorBoundary } from '@repo/ui';
+
+export default function Page() {
+  return (
+    <ErrorBoundary>
+      <Component />
+    </ErrorBoundary>
+  );
+}
+```
+
+## 错误处理
+
+我们建议使用 `try/catch` 块来处理错误，并使用 Sentry 来捕获它们：
+
+```tsx
+import * as Sentry from '@sentry/nextjs';
+
+try {
+  await doSomething();
+} catch (error) {
+  Sentry.captureException(error);
+  throw error;
+}
+```
+
+## 性能监控
+
+Sentry 也可以用来监控应用程序的性能。它已经预先配置好，可以在所有应用程序中使用。你可以在 Sentry 仪表板中查看性能数据。
+
+## 用户反馈
+
+当发生错误时，你可以使用 Sentry 的用户反馈功能来收集更多信息：
+
+```tsx
+import * as Sentry from '@sentry/nextjs';
+
+try {
+  await doSomething();
+} catch (error) {
+  Sentry.showReportDialog({ eventId: Sentry.captureException(error) });
+}
+```
+
+## 手动使用
+
+如果你想捕获一个特定的异常，而不是让它冒泡到 Sentry，你可以使用 `captureException` 函数：
+
+```tsx page.tsx
+import { captureException } from '@sentry/nextjs';
+
+captureException(new Error('我的错误消息'));
+```
+
+## 隧道
+
+`sentryConfig.tunnelRoute` 选项在 `@repo/next-config` 的 Sentry 配置中将浏览器请求路由到 Sentry 通过 Next.js 重写，以绕过广告拦截器。这可能会增加你的服务器负载以及你的托管账单。
+
+<Warning>
+  请确保配置的路由不会与你的 Next.js 中间件匹配，否则客户端错误报告将失败。
+</Warning>

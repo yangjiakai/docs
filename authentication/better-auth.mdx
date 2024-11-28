@@ -1,6 +1,7 @@
 ---
-title: Switch to Better Auth
-description: How to switch from Clerk to Better Auth.
+title: 切换到 Better Auth
+description: 如何从 Clerk 切换到 Better Auth
+icon: arrows-exchange
 ---
 
 import { Authors } from '/snippets/authors.mdx';
@@ -25,35 +26,35 @@ import { Authors } from '/snippets/authors.mdx';
   },
 }]} />
 
-Better Auth is a comprehensive, open-source authentication framework for TypeScript. It is designed to be framework agnostic, but integrates well with Next.js and provides a lot of features out of the box.
+Better Auth 是一个全面的、开源的 TypeScript 身份验证框架。它被设计为框架无关的，但与 Next.js 集成良好，并提供了许多开箱即用的功能。
 
-## 1. Swap out the `auth` package dependencies
+## 1. 替换 `auth` 包依赖项
 
-Uninstall the existing Clerk dependencies from the `auth` package...
+从 `auth` 包中卸载现有的 Clerk 依赖项...
 
 ```sh Terminal
 pnpm remove @clerk/nextjs @clerk/themes @clerk/types --filter auth
 ```
 
-...and install the Better Auth dependencies:
+...并安装 Better Auth 依赖项：
 
 ```sh Terminal
 pnpm add better-auth --filter auth
 ```
 
-## 2. Update your environment variables
+## 2. 更新环境变量
 
-Generate a secret with the following command to add it to the `.env.local` file in each Next.js application (`app`, `web` and `api`):
+使用以下命令生成密钥，并将其添加到每个 Next.js 应用程序（`app`、`web` 和 `api`）的 `.env.local` 文件中：
 
 ```sh Terminal
 npx @better-auth/cli secret
 ```
 
-This will add a `BETTER_AUTH_SECRET` environment variable to the `.env.local` file.
+这将在 `.env.local` 文件中添加一个 `BETTER_AUTH_SECRET` 环境变量。
 
-## 3. Setup the server and client auth
+## 3. 设置服务器和客户端身份验证
 
-Update the `auth` package files with the following code:
+使用以下代码更新 `auth` 包文件：
 
 <CodeGroup>
 
@@ -68,7 +69,7 @@ Update the `auth` package files with the following code:
     plugins: [
       nextCookies()
     ],
-    //...add more options here
+    //...在此处添加更多选项
   });
   ```
 
@@ -80,11 +81,11 @@ Update the `auth` package files with the following code:
 
 </CodeGroup>
 
-Read more in the Better Auth [installation guide](https://www.better-auth.com/docs/installation).
+在 Better Auth [安装指南](https://www.better-auth.com/docs/installation) 中了解更多信息。
 
-## 5. Update the auth components
+## 5. 更新身份验证组件
 
-Update both the `sign-in.tsx` and `sign-up.tsx` components in the `auth` package to use the `signIn` and `signUp` functions from the `client` file.
+更新 `auth` 包中的 `sign-in.tsx` 和 `sign-up.tsx` 组件，使用 `client` 文件中的 `signIn` 和 `signUp` 函数。
 
 <CodeGroup>
 
@@ -125,7 +126,7 @@ Update both the `sign-in.tsx` and `sign-up.tsx` components in the `auth` package
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <button type="submit">Sign in</button>
+        <button type="submit">登录</button>
       </form>
     );
   }
@@ -168,7 +169,7 @@ Update both the `sign-in.tsx` and `sign-up.tsx` components in the `auth` package
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <button type="submit">Sign up</button>
+        <button type="submit">注册</button>
       </form>
     );
   }
@@ -176,19 +177,19 @@ Update both the `sign-in.tsx` and `sign-up.tsx` components in the `auth` package
 
 </CodeGroup>
 
-You can use different sign-in methods like social providers, phone, username etc. Read more about Better Auth [basic usage](https://better-auth.com/docs/basic-usage).
+你可以使用不同的登录方法，如社交提供商、电话、用户名等。在 Better Auth [基本用法](https://better-auth.com/docs/basic-usage) 中了解更多信息。
 
-## 6. Generate Prisma Models
+## 6. 生成 Prisma 模型
 
-From the root folder, generate Prisma models for Better Auth by running the following command:
+从根文件夹运行以下命令，为 Better Auth 生成 Prisma 模型：
 
 ```sh Terminal
 npx @better-auth/cli generate --output ./packages/database/prisma/schema.prisma
 ```
 
-## 7. Update the Provider file
+## 7. 更新 Provider 文件
 
-Better Auth has no concept of a Provider as a higher-order component, so you can either remove it entirely or just replace it with a stub, like so:
+Better Auth 没有作为高阶组件的 Provider 概念，所以你可以完全删除它或者只是用一个存根替换它，如下所示：
 
 ```tsx packages/auth/provider.tsx
 import type { ReactNode } from 'react';
@@ -200,9 +201,9 @@ type AuthProviderProps = {
 export const AuthProvider = ({ children }: AuthProviderProps) => children;
 ```
 
-## 8. Change Middleware
+## 8. 更改中间件
 
-Change the middleware in the `auth` package to the following:
+将 `auth` 包中的中间件更改为以下内容：
 
 ```tsx packages/auth/middleware.ts
 import { NextRequest } from "next/server";
@@ -211,7 +212,7 @@ import { createAuthClient } from "better-auth/client";
 const { getSession } = createAuthClient();
 
 const isProtectedRoute = (request: NextRequest) => {
-  return request.url.startsWith("/dashboard"); // change this to your protected route
+  return request.url.startsWith("/dashboard"); // 更改为你的受保护路由
 }
 
 export const authMiddleware = async (request: NextRequest) => {
@@ -225,9 +226,9 @@ export const authMiddleware = async (request: NextRequest) => {
 }
 ```
 
-## 9. Update your apps
+## 9. 更新你的应用
 
-From here, you'll need to replace any remaining Clerk implementations in your apps with Better Auth. For example, you can replace the `auth` import in the `page.tsx` file in the `dashboard` package with the `auth` import from the `auth` package.
+从这里开始，你需要将应用中剩余的 Clerk 实现替换为 Better Auth。例如，你可以将 `dashboard` 包中 `page.tsx` 文件中的 `auth` 导入替换为来自 `auth` 包的 `auth` 导入。
 
 ```tsx page.tsx
 const { orgId } = await auth();
@@ -235,11 +236,11 @@ const { redirectToSignIn } = await auth();
 const user = await currentUser();
 ```
 
-to
+替换为：
     
 ```tsx page.tsx
 const organization = useActiveOrganization();
 const session = await auth.api.getSession();
 ```
 
-For using organization, check [organization plugin](https://better-auth.com/docs/plugins/organization) and more from the [Better Auth documentation](https://better-auth.com/docs).
+关于组织的使用，请查看 [organization 插件](https://better-auth.com/docs/plugins/organization) 以及 [Better Auth 文档](https://better-auth.com/docs) 中的更多内容。

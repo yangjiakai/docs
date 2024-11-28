@@ -1,18 +1,19 @@
 ---
-title: Transactional Emails
-descriptions: How all other transactional emails work.
+title: 交易邮件
+description: 其他交易邮件的工作原理
+icon: envelope
 ---
 
-We use [Resend](https://resend.com/) to send transactional emails. The templates, located in `@repo/email`, are powered by [React Email](https://react.email/) - a collection of high-quality, unstyled components for creating beautiful emails using React and TypeScript.
+我们使用 [Resend](https://resend.com/) 发送交易邮件。位于 `@repo/email` 的模板由 [React Email](https://react.email/) 提供支持 - 这是一个使用 React 和 TypeScript 创建精美邮件的高质量、无样式组件集合。
 
-## Email Templates
+## 邮件模板
 
-The `email` package is separated from the app folder for two reasons:
+`email` 包与 app 文件夹分开有两个原因：
 
-1. We can import the templates into the `email` app, allowing for previewing them in the UI; and
-2. We can import both the templates and the SDK into our other apps and use them to send emails.
+1. 我们可以将模板导入到 `email` 应用中，以便在 UI 中预览它们；
+2. 我们可以将模板和 SDK 都导入到其他应用中，并使用它们发送邮件。
 
-Resend and React Email play nicely together. For example, here's how you can send a transactional email using a React email template:
+Resend 和 React Email 配合得很好。例如，以下是如何使用 React 邮件模板发送交易邮件：
 
 ```tsx apps/web/app/contact/actions/contact.tsx
 import { resend } from '@repo/email';
@@ -21,14 +22,14 @@ import { ContactTemplate } from '@repo/email/templates/contact';
 await resend.emails.send({
   from: 'sender@acme.com',
   to: 'recipient@acme.com',
-  subject: 'The email subject',
+  subject: '邮件主题',
   react: <ContactTemplate name={name} email={email} message={message} />,
 });
 ```
 
-## Previewing Emails
+## 预览邮件
 
-To preview the emails templates, simply run the `email` app:
+要预览邮件模板，只需运行 `email` 应用：
 
 ```sh Terminal
 pnpm dev --filter email

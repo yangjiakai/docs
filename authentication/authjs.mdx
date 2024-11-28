@@ -1,31 +1,32 @@
 ---
-title: Switch to Auth.js
-description: How to switch from Clerk to Auth.js.
+title: 切换到 Auth.js
+description: 如何从 Clerk 切换到 Auth.js
+icon: arrows-exchange
 ---
 
 <Warning>
-next-forge support for Auth.js is currently blocked by [this issue](https://github.com/nextauthjs/next-auth/issues/11076).
+由于 [这个问题](https://github.com/nextauthjs/next-auth/issues/11076)，next-forge 目前暂不支持 Auth.js。
 </Warning>
 
-Here's how to switch from Clerk to [Auth.js](https://authjs.dev/).
+以下是如何从 Clerk 切换到 [Auth.js](https://authjs.dev/) 的步骤。
 
-## 1. Replace the dependencies
+## 1. 替换依赖项
 
-Uninstall the existing Clerk dependencies from the `auth` package...
+从 `auth` 包中卸载现有的 Clerk 依赖项...
 
 ```sh Terminal
 pnpm remove @clerk/nextjs @clerk/themes @clerk/types --filter auth
 ```
 
-... and install the Auth.js dependencies.
+... 并安装 Auth.js 依赖项。
 
 ```sh Terminal
 pnpm add next-auth@beta --filter auth
 ```
 
-## 2. Generate an Auth.js secret
+## 2. 生成 Auth.js 密钥
 
-Auth.js requires a random value secret, used by the library to encrypt tokens and email verification hashes. In each of the relevant app directories, generate a secret with the following command:
+Auth.js 需要一个随机值密钥，用于加密令牌和电子邮件验证哈希。在每个相关的应用目录中，使用以下命令生成密钥：
 
 ```sh Terminal
 cd apps/app && npx auth secret && cd -
@@ -33,11 +34,11 @@ cd apps/web && npx auth secret && cd -
 cd apps/api && npx auth secret && cd -
 ```
 
-This will automatically add an `AUTH_SECRET` environment variable to the `.env.local` file in each directory.
+这将自动在每个目录的 `.env.local` 文件中添加一个 `AUTH_SECRET` 环境变量。
 
-## 3. Replace the relevant files
+## 3. 替换相关文件
 
-Delete the existing `client.ts` and `server.ts` files in the `auth` package. Then, create the following file:
+删除 `auth` 包中现有的 `client.ts` 和 `server.ts` 文件。然后，创建以下文件：
 
 ```tsx packages/auth/index.ts
 import NextAuth from "next-auth";
@@ -47,9 +48,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 });
 ```
 
-## 4. Update the middleware
+## 4. 更新中间件
 
-Update the `middleware.ts` file in the `auth` package with the following content:
+使用以下内容更新 `auth` 包中的 `middleware.ts` 文件：
 
 ```tsx packages/auth/middleware.ts
 import 'server-only';
@@ -57,9 +58,9 @@ import 'server-only';
 export { auth as authMiddleware } from './';
 ```
 
-## 5. Update the auth components
+## 5. 更新身份验证组件
 
-Auth.js has no concept of "sign up", so we'll use the `signIn` function to sign up users. Update both the `sign-in.tsx` and `sign-up.tsx` components in the `auth` package with the same content:
+Auth.js 没有"注册"的概念，所以我们将使用 `signIn` 函数来注册用户。使用相同的内容更新 `auth` 包中的 `sign-in.tsx` 和 `sign-up.tsx` 组件：
 
 <CodeGroup>
 
@@ -73,7 +74,7 @@ export const SignIn = () => (
       await signIn();
     }}
   >
-    <button type="submit">Sign in</button>
+    <button type="submit">登录</button>
   </form>
 );
 ```
@@ -88,16 +89,16 @@ export const SignUp = () => (
       await signIn();
     }}
   >
-    <button type="submit">Sign up</button>
+    <button type="submit">注册</button>
   </form>
 );
 ```
 
 </CodeGroup>
 
-## 6. Update the Provider file
+## 6. 更新 Provider 文件
 
-Auth.js has no concept of a Provider as a higher-order component, so you can either remove it entirely or just replace it with a stub, like so:
+Auth.js 没有作为高阶组件的 Provider 概念，所以你可以完全删除它或者只是用一个存根替换它，如下所示：
 
 ```tsx packages/auth/provider.tsx
 import type { ReactNode } from 'react';
@@ -109,9 +110,9 @@ type AuthProviderProps = {
 export const AuthProvider = ({ children }: AuthProviderProps) => children;
 ```
 
-## 7. Create an auth route handler
+## 7. 创建身份验证路由处理程序
 
-In your `app` application, create an auth route handler file with the following content:
+在你的 `app` 应用中，创建一个包含以下内容的身份验证路由处理程序文件：
 
 ```tsx apps/app/api/auth/[...nextauth]/route.ts
 import { handlers } from "@repo/auth"
@@ -119,9 +120,9 @@ import { handlers } from "@repo/auth"
 export const { GET, POST } = handlers;
 ```
 
-## 8. Update your apps
+## 8. 更新你的应用
 
-From here, you'll need to replace any remaining Clerk implementations in your apps with Auth.js references. This means swapping out references like:
+从这里开始，你需要将应用中剩余的 Clerk 实现替换为 Auth.js 引用。这意味着需要替换如下引用：
 
 ```tsx page.tsx
 const { orgId } = await auth();
@@ -129,4 +130,4 @@ const { redirectToSignIn } = await auth();
 const user = await currentUser();
 ```
 
-Etcetera. Keep in mind that you'll need to build your own "organization" logic as Auth.js doesn't have a concept of organizations.
+等等。请记住，你需要构建自己的"组织"逻辑，因为 Auth.js 没有组织的概念。

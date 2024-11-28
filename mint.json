@@ -7,12 +7,12 @@
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#ff1744",
-    "light": "#ff54b2",
-    "dark": "#ff1744",
+    "primary": "#0D9373",
+    "light": "#08C983",
+    "dark": "#0D9373",
     "anchors": {
-      "from": "#ff1744",
-      "to": "#ff54b2"
+      "from": "#0D9373",
+      "to": "#08C983"
     }
   },
   "topbarLinks": [
@@ -130,6 +130,24 @@
       "icon": "rocket-launch",
       "pages": [
         "deployment/vercel"
+      ]
+    },
+    {
+      "group": "邮件",
+      "icon": "envelope",
+      "pages": [
+        "email/clerk",
+        "email/resend"
+      ]
+    },
+    {
+      "group": "可观测性",
+      "icon": "eye",
+      "pages": [
+        "observability/debugging",
+        "observability/error-capture",
+        "observability/logging",
+        "observability/uptime"
       ]
     }
   ],
