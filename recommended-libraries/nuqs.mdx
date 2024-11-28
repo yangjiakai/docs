@@ -1,19 +1,20 @@
 ---
 title: NUQS
-description: A powerful library for managing URL search parameters in your application. It provides a simple and efficient way to handle state management through URL search parameters.
+description: 一个强大的库，用于管理应用中的 URL 搜索参数。它提供了一种简单高效的方式来通过 URL 搜索参数进行状态管理。
+icon: link
 ---
 
-### Installation
+### 安装 / Installation
 
-To install NUQS, simply run the following command:
+要安装 NUQS，只需运行以下命令：
 
 ```sh Terminal
 pnpm add nuqs
 ```
 
-### Usage
+### 使用方法 / Usage
 
-Here is an example of how to use NUQS for URL search parameter state management:
+以下是使用 NUQS 进行 URL 搜索参数状态管理的示例：
 
 ```tsx my-component.tsx
 import { useSearchParams } from 'nuqs';
@@ -32,18 +33,136 @@ function MyComponent() {
         value={searchParams.query || ''}
         onChange={handleInputChange}
       />
-      <p>Search Query: {searchParams.query}</p>
+      <p>搜索查询: {searchParams.query}</p>
     </div>
   );
 }
 ```
 
-In this example, the `useSearchParams` hook from NUQS is used to manage the state of the search query through URL search parameters. The `setSearchParams` function updates the URL search parameters whenever the input value changes.
+在这个示例中，使用了 NUQS 的 `useSearchParams` hook 来通过 URL 搜索参数管理搜索查询的状态。当输入值改变时，`setSearchParams` 函数会更新 URL 搜索参数。
 
-### Benefits
+### 优势 / Advantages
 
-- <Icon icon="check" iconType="solid" /> **Simplified State Management**: NUQS simplifies state management by using URL search parameters, making it easy to share and persist state across different parts of your application.
-- <Icon icon="check" iconType="solid" /> **SEO-Friendly**: By using URL search parameters, NUQS helps improve the SEO of your application by making the state accessible through the URL.
-- <Icon icon="check" iconType="solid" /> **Easy Integration**: NUQS is easy to integrate into your existing React application, providing a seamless experience for managing URL search parameters.
+- <Icon icon="check" iconType="solid" /> **简化状态管理**：NUQS 通过使用 URL 搜索参数简化了状态管理，使得在应用的不同部分之间共享和持久化状态变得容易。
+- <Icon icon="check" iconType="solid" /> **SEO 友好**：通过使用 URL 搜索参数，NUQS 通过使状态可以通过 URL 访问来帮助改善应用的 SEO。
+- <Icon icon="check" iconType="solid" /> **易于集成**：NUQS 易于集成到现有的 React 应用中，为管理 URL 搜索参数提供了无缝的体验。
 
-For more information and detailed documentation, visit the [NUQS website](https://nuqs.47ng.com/).
+更多信息和详细文档，请访问 [NUQS 网站](https://nuqs.47ng.com/)。
+
+### NUQS 是什么？ / What is NUQS?
+
+[nuqs](https://nuqs.47ng.com/) 是一个用于 Next.js 的 URL 查询参数管理库。它提供了一种类型安全的方式来管理 URL 状态，特别适用于处理过滤器、分页和搜索功能。
+
+### 为什么使用它？ / Why Use It?
+
+nuqs 提供了许多好处：
+
+- 类型安全的 URL 参数管理
+- 自动 URL 同步
+- 支持复杂数据类型
+- 内置序列化和反序列化
+- 支持 Next.js App Router
+
+### 基本用法 / Basic Usage
+
+#### 简单参数 / Simple Parameters
+
+```typescript
+import { useQueryState } from 'nuqs'
+
+function SearchComponent() {
+  const [search, setSearch] = useQueryState('q')
+  
+  return (
+    <input
+      value={search ?? ''}
+      onChange={(e) => setSearch(e.target.value)}
+    />
+  )
+}
+```
+
+#### 数值参数 / Numeric Parameters
+
+```typescript
+import { useQueryState, parseAsInteger } from 'nuqs'
+
+function PaginationComponent() {
+  const [page, setPage] = useQueryState('page', parseAsInteger)
+  
+  return (
+    <button onClick={() => setPage((page ?? 1) + 1)}>
+      下一页
+    </button>
+  )
+}
+```
+
+#### 数组参数 / Array Parameters
+
+```typescript
+import { useQueryState, parseAsArrayOf } from 'nuqs'
+
+function FiltersComponent() {
+  const [filters, setFilters] = useQueryState(
+    'filters',
+    parseAsArrayOf(parseAsString)
+  )
+  
+  return (
+    <div>
+      {filters?.map(filter => (
+        <span key={filter}>{filter}</span>
+      ))}
+    </div>
+  )
+}
+```
+
+### 高级功能 / Advanced Features
+
+#### 自定义序列化 / Custom Serialization
+
+```typescript
+import { createParser } from 'nuqs'
+
+const dateParser = createParser({
+  parse: (value) => new Date(value),
+  serialize: (date) => date.toISOString()
+})
+
+function DatePickerComponent() {
+  const [date, setDate] = useQueryState('date', dateParser)
+}
+```
+
+#### 批量更新 / Batch Updates
+
+```typescript
+import { useQueryStates } from 'nuqs'
+
+function FiltersComponent() {
+  const [states, setStates] = useQueryStates({
+    search: parseAsString,
+    page: parseAsInteger,
+    filters: parseAsArrayOf(parseAsString)
+  })
+  
+  // 批量更新多个参数
+  const resetAll = () => {
+    setStates({
+      search: '',
+      page: 1,
+      filters: []
+    })
+  }
+}
+```
+
+### 最佳实践 / Best Practices
+
+1. 使用有意义的参数名称
+2. 为所有参数提供默认值
+3. 处理参数缺失的情况
+4. 使用适当的解析器
+5. 考虑 URL 长度限制

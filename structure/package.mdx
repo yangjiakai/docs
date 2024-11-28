@@ -1,26 +1,24 @@
-我会帮你将这两段 MDX 文档合并并翻译成中文。以下是翻译后的内容：
-
+---
+title: Packages
+description: next-forge 的包组件
 ---
 
-title: 应用程序
-description: next-forge 的应用程序
+next-forge 包含多个在整个 monorepo 中共享的包。这些包的目的是将共享代码与主应用隔离，使其更容易管理和更新。
 
----
+此外，这也使得替换应用的不同实现部分变得更容易。例如，`database` 包包含了所有与数据库相关的内容，包括数据库模式和迁移。这使我们能够在不影响应用其他部分的情况下轻松更换数据库提供商或 ORM。
 
-next-forge 是一个 monorepo（单体仓库），这意味着它在一个代码仓库中包含多个软件包。这是现代 Web 应用程序的常见模式，因为它允许你在应用程序的不同部分之间共享代码，并统一管理它们。
-
-这个 monorepo 由 [Turborepo](https://turbo.build/repo) 管理，这是一个用于管理单体仓库的工具。它提供了一种简单的方式来管理单个代码仓库中的多个软件包，并专门为现代 Web 应用程序设计。
-
-该 monorepo 包含以下应用程序：
-
-| 应用程序    | 描述                                                                          | 端口 | 推荐 URL        |
-| ----------- | ----------------------------------------------------------------------------- | ---- | --------------- |
-| `api`       | 包含设计用于独立于主应用程序运行的无服务器函数，例如 webhooks 和定时任务。    | 3002 | `api.acme.com`  |
-| `app`       | 主应用程序，采用 [shadcn/ui](https://ui.shadcn.com/) 模板。                   | 3000 | `app.acme.com`  |
-| `docs`      | 文档站点，包含应用程序的文档，例如指南和教程。                                | 3004 | `docs.acme.com` |
-| `email`     | 来自 [react.email](https://react.email/) 的邮件预览服务器。                   | 3003 |                 |
-| `storybook` | Storybook，包含应用程序的组件展示和文档。                                     | 6006 |                 |
-| `studio`    | [Prisma Studio](https://www.prisma.io/studio)，这是一个数据库的图形化编辑器。 | 3005 |                 |
-| `web`       | 网站，采用 [twblocks](https://www.twblocks.com/) 模板。                       | 3001 | `acme.com`      |
-
-虽然你可以选择在任何子域名上运行这些应用程序，但上面列出了推荐的子域名。记得在[环境变量](/env)中添加它们，包括 `NEXT_PUBLIC_APP_URL`、`NEXT_PUBLIC_WEB_URL` 和 `NEXT_PUBLIC_DOCS_URL`。
+| 包名 | 描述 |
+| ------- | ----------- |
+| `analytics` | 分析系统 |
+| `auth` | 身份认证提供者 |
+| `database` | 数据库模式和迁移 |
+| `design-system` | 包含共享组件、实用工具文件和样式 |
+| `email` | 电子邮件功能，包括提供商 SDK 和模板 |
+| `env` | 环境变量 |
+| `feature-flags` | 功能标志 |
+| `next-config` | 共享的 Next.js 配置 |
+| `observability` | 可观测性工具，包括日志记录、错误处理和正常运行时间监控 |
+| `payments` | 支付和计费功能 |
+| `seo` | 搜索引擎优化，包括元数据和结构化数据 |
+| `tailwind-config` | 共享的 Tailwind CSS 配置 |
+| `typescript-config` | 共享的 TypeScript 配置 |

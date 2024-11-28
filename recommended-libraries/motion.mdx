@@ -1,36 +1,85 @@
 ---
-title: Motion
-description: A library for animating React components with ease.
+title: Motion One
+description: 使用 Motion One 为你的应用添加流畅的动画效果
+icon: wand-magic-sparkles
 ---
 
-<Tip>Motion was formerly known as Framer Motion.</Tip>
+## 什么是 Motion One？ / What is Motion One？
 
-### Installation
+[Motion One](https://motion.dev/) 是一个现代的网页动画库，它提供了高性能、轻量级的动画解决方案。它是 GSAP 的一个很好的替代品。
 
-To install Motion, simply run the following command:
+## 为什么使用它？ / Why Use It？
 
-```sh Terminal
-pnpm add motion
+Motion One 提供了许多优势：
+
+- 极小的包体积（仅 4.5kb gzipped）
+- 使用 Web Animations API
+- 流畅的性能
+- 简单的 API
+- TypeScript 支持
+
+## 安装 / Installation
+
+使用以下命令安装：
+
+```bash
+pnpm add @motionone/dom
 ```
 
-### Usage
+## 基本用法 / Basic Usage
 
-Here is an example of how to use Motion to animate a component:
+### 简单动画 / Simple Animation
 
-```tsx my-component.tsx
-import { motion } from 'motion';
+```typescript
+import { animate } from "@motionone/dom"
 
-function MyComponent() {
-  return (
-    <motion.div animate={{ x: 100 }}>This is a component that is animated.</motion.div>
-  );
-}
+// 简单的淡入效果
+animate("#element", { opacity: 1 })
+
+// 带有配置的动画
+animate("#element", 
+  { 
+    opacity: 1,
+    transform: "translateY(0px)" 
+  },
+  { 
+    duration: 1,
+    easing: "ease-out" 
+  }
+)
 ```
 
-### Benefits
+### 时间轴动画 / Timeline Animation
 
-- <Icon icon="check" iconType="solid" /> **Easy Animation**: Motion makes it easy to animate components with a simple and intuitive API.
-- <Icon icon="check" iconType="solid" /> **Customization**: Motion allows you to customize animations to your needs, providing a high degree of control over the animation process.
-- <Icon icon="check" iconType="solid" /> **Performance**: Motion is performant and has minimal impact on your application's performance.
+```typescript
+import { timeline } from "@motionone/dom"
 
-For more information and detailed documentation, visit the [Motion website](https://motion.dev/).
+const sequence = [
+  [
+    "#element-1",
+    { opacity: 1, transform: "translateY(0px)" }
+  ],
+  [
+    "#element-2",
+    { opacity: 1, transform: "scale(1)" },
+    { at: "-0.5" }
+  ]
+]
+
+timeline(sequence)
+```
+
+## 高级特性 / Advanced Features
+
+- 支持 CSS 变量
+- 支持 Spring 动画
+- 支持手势动画
+- 支持滚动动画
+
+## 性能优化 / Performance Optimization
+
+Motion One 自动使用硬件加速来优化动画性能。它还提供了一些优化建议：
+
+- 优先使用 `transform` 和 `opacity` 属性
+- 避免同时动画过多元素
+- 使用 `will-change` 提示浏览器

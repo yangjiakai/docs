@@ -1,30 +1,64 @@
 ---
-title: Friendlier Words
-description: A JavaScript package that creates friendly words to use in your app, handy for generating project names.
+title: Friendlier-words
+description: 用更友好的词汇替换常见的技术术语
+icon: message-smile
 ---
 
-### Installation
+## 什么是 friendlier-words？ / What is friendlier-words?
 
-To install `friendlier-words`, simply run the following command:
+[friendlier-words](https://github.com/haydenbleasel/friendlier-words) 是一个简单的工具，用于将常见的技术术语替换为更友好、更容易理解的词汇。
 
-```sh Terminal
+## 为什么使用它？ / Why Use It?
+
+在技术文档和界面中，我们经常使用一些可能让用户感到困惑或不友好的术语。例如：
+
+- `master` / `slave`
+- `blacklist` / `whitelist`
+- `kill`
+- `abort`
+
+这些词汇可能会：
+- 让新手感到困惑
+- 包含不必要的暴力含义
+- 带有种族或性别偏见
+- 使文档不够专业
+
+## 安装 / Installation
+
+```bash
 pnpm add friendlier-words
 ```
 
-### Usage
+## 使用 / Usage
 
-Here is an example of how to use `friendlier-words` for generating friendly words:
+使用示例：
 
-```tsx get-project-name.ts
-import { friendlyWords } from 'friendlier-words';
+```typescript
+import { replaceWords } from 'friendlier-words';
 
-// Default (2 segments, '-')
-// e.g. robust-chicken, happy-cat, modest-pear
-const words = friendlyWords();
+const text = 'Master branch has been updated';
+const friendly = replaceWords(text);
+// 输出: 'Primary branch has been updated'
+```
 
-// Custom (3 segments, '_')
-// e.g. keen_explorer_oak, comforting_cactus_constructor, playful_tiger_breeze
-const words = friendlyWords(3, '_');
+## 建议 / Suggestions
+
+- 在用户界面文本中使用
+- 在错误消息中使用
+- 在文档中使用
+- 在代码注释中使用
+
+## 配置 / Configuration
+
+你可以自定义替换规则：
+
+```typescript
+const customRules = {
+  oldWord: 'newWord',
+  anotherOldWord: 'anotherNewWord'
+};
+
+const friendly = replaceWords(text, customRules);
 ```
 
 ### Benefits

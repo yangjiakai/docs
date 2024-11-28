@@ -15,7 +15,7 @@
       "to": "#08C983"
     }
   },
-  "theme":"prism",
+  "theme": "prism",
   "topbarLinks": [
     {
       "name": "技术支持",
@@ -53,6 +53,17 @@
     {
       "group": "项目起步",
       "pages": ["overview", "quickstart", "faq"]
+    },
+    {
+      "group": "推荐库",
+      "icon": "star",
+      "pages": [
+        "recommended-libraries/friendlier-words",
+        "recommended-libraries/motion",
+        "recommended-libraries/nuqs",
+        "recommended-libraries/react-wrap-balancer",
+        "recommended-libraries/zustand"
+      ]
     },
     {
       "group": "Essentials",
@@ -151,6 +162,7 @@
         "observability/uptime"
       ]
     }
+   
   ],
   "footerSocials": {
     "x": "https://x.com/mintlify",
