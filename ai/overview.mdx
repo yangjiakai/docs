@@ -1,0 +1,101 @@
+---
+title: 人工智能
+description: 如何在 next-forge 中使用 AI
+icon: robot
+---
+
+next-forge 有一个预配置的 `ai` 包，它使用 [ai-sdk](https://sdk.vercel.ai/) 提供了一个与 AI 模型交互的简单接口。
+
+## 基本用法 / Basic Usage
+
+要使用 `ai` 包，你可以从 `@repo/ai` 包中导入它。例如：
+
+```ts generate.ts
+import { generateText } from '@repo/ai';
+import { provider } from '@repo/ai/provider';
+
+const response = await generateText({
+  model: provider('gpt-4o'),
+  prompt: 'Hello, world!',
+});
+```
+
+## 添加支付代理能力 / Adding Payment Agent Capabilities
+
+你可以使用 `paymentsAgentToolkit` 为你的 AI 代理添加支付功能，用于金融服务。由于 next-forge 默认使用 Stripe，以下是使用示例：
+
+```ts generate.ts
+import { generateText } from '@repo/ai';
+import { paymentsAgentToolkit } from '@repo/payments/ai';
+import { provider } from '@repo/ai/provider';
+
+const response = await generateText({
+  model: provider('gpt-4o'),
+  tools: {
+    ...paymentsAgentToolkit.getTools(),
+  },
+  maxSteps: 5,
+  prompt: 'Create a payment link for a new product called \"Test\" with a price of $100.',
+})
+```
+
+## 添加分析功能 / Adding Analytics
+
+根据你的使用场景、环境以及是否使用生成或流式处理，有多种方法可以为你的 AI 代理添加分析功能。
+
+以下是使用我们的 `analytics` 包为 `generateText` 请求添加分析的简单示例：
+
+```ts generate.ts
+import { generateText } from '@repo/ai';
+import { analytics } from '@repo/analytics/posthog/server';
+import { currentUser } from '@repo/auth/server';
+import { provider } from '@repo/ai/provider';
+
+const model = provider('gpt-4o');
+const prompt = 'Hello, world!';
+const tokenInputCost = 0.0000025;
+const tokenOutputCost = 0.00001;
+const startTime = performance.now();
+const user = await currentUser();
+
+if (!user) {
+  throw new Error('User not found');
+}
+
+const response = await generateText({
+  model,
+  prompt,
+});
+
+const endTime = performance.now();
+
+analytics.capture({
+  event: 'chat_completion',
+  distinctId: user.id,
+  properties: {
+    model: model.modelId,
+    prompt,
+    prompt_tokens: response.usage.promptTokens,
+    completion_tokens: response.usage.completionTokens,
+    total_tokens: response.usage.totalTokens,
+    input_cost_in_dollars: response.usage.promptTokens * tokenInputCost,
+    output_cost_in_dollars: response.usage.promptTokens * tokenOutputCost,
+    total_cost_in_dollars:
+      response.usage.promptTokens * tokenInputCost +
+      response.usage.completionTokens * tokenOutputCost,
+    response_time_in_ms: endTime - startTime,
+  },
+});
+```
+
+## 使用不同的提供商 / Using Different Provider
+
+如果你想使用不同的提供商，你可以修改 `@repo/ai/provider.ts` 中的 `provider` 来使用你想要的提供商。例如，要使用 Anthropic，你可以将其更改为：
+
+```ts packages/ai/provider.ts
+import { createAnthropic } from '@ai-sdk/anthropic';
+
+export const provider = createAnthropic({
+  apiKey: env.ANTHROPIC_API_KEY,
+});
+```

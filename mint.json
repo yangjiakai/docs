@@ -70,6 +70,11 @@
       "pages": ["structure/apps", "structure/package"]
     },
     {
+      "group": "AI",
+      "icon": "robot",
+      "pages": ["ai/overview"]
+    },
+    {
       "group": "API 文档",
       "pages": ["api-reference/introduction"]
     },
