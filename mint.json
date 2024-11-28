@@ -15,10 +15,11 @@
       "to": "#08C983"
     }
   },
+  "theme":"prism",
   "topbarLinks": [
     {
-      "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "name": "技术支持",
+      "url": "mailto:yjkbako@gmail.com"
     }
   ],
   "topbarCtaButton": {
@@ -27,31 +28,31 @@
   },
   "tabs": [
     {
-      "name": "API Reference",
+      "name": "API 文档",
       "url": "api-reference"
     }
   ],
   "anchors": [
     {
-      "name": "Documentation",
+      "name": "文档",
       "icon": "book-open-cover",
       "url": "https://mintlify.com/docs"
     },
     {
-      "name": "Community",
+      "name": "社区",
       "icon": "slack",
       "url": "https://mintlify.com/community"
     },
     {
-      "name": "Blog",
+      "name": "博客",
       "icon": "newspaper",
       "url": "https://mintlify.com/blog"
     }
   ],
   "navigation": [
     {
-      "group": "Get Started",
-      "pages": ["introduction", "quickstart", "development"]
+      "group": "项目起步",
+      "pages": ["overview", "quickstart", "faq"]
     },
     {
       "group": "Essentials",
@@ -65,15 +66,15 @@
       ]
     },
     {
-      "group": "Stucture",
+      "group": "项目结构",
       "pages": ["structure/apps", "structure/package"]
     },
     {
-      "group": "API Documentation",
+      "group": "API 文档",
       "pages": ["api-reference/introduction"]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "API示例",
       "pages": [
         "api-reference/endpoint/get",
         "api-reference/endpoint/create",
@@ -153,7 +154,6 @@
   ],
   "footerSocials": {
     "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://linkedin.com/company/mintlify"
+    "github": "https://github.com/mintlify"
   }
 }

@@ -1,0 +1,114 @@
+---
+title: FAQ
+description: Frequently asked questions about next-forge
+icon: question
+---
+
+
+## 常见问题
+
+### 基本问题
+
+<AccordionGroup>
+  <Accordion icon="rocket" title="什么是 next-forge？">
+    next-forge 是一个全栈应用程序框架，它集成了现代网络开发所需的所有工具和服务。它基于 Next.js，并提供了认证、数据库、电子邮件、支付等功能的开箱即用解决方案。
+  </Accordion>
+
+  <Accordion icon="code" title="我需要多少编程经验？">
+    我们建议你具备以下基础知识：
+    - JavaScript/TypeScript 编程经验
+    - React 和 Next.js 的基本了解
+    - 基本的命令行操作能力
+    - Git 版本控制的基本知识
+  </Accordion>
+
+  <Accordion icon="money-bill" title="使用 next-forge 需要付费吗？">
+    next-forge 本身是免费和开源的。但是，某些集成的服务（如 Stripe、Clerk、Sentry 等）可能需要付费，具体取决于你的使用情况和规模。
+  </Accordion>
+</AccordionGroup>
+
+### 技术问题
+
+<AccordionGroup>
+  <Accordion icon="database" title="如何选择合适的数据库？">
+    选择数据库取决于多个因素：
+    - 应用规模和预期增长
+    - 数据结构复杂度
+    - 预算限制
+    - 团队经验
+    
+    查看我们的[数据库概述](/database/overview)获取详细指导。
+  </Accordion>
+
+  <Accordion icon="shield" title="如何处理认证？">
+    next-forge 提供了多个认证选项：
+    - Clerk（推荐）
+    - Auth.js
+    - 自定义认证
+    
+    查看[认证文档](/authentication/overview)了解更多信息。
+  </Accordion>
+
+  <Accordion icon="cloud" title="如何部署应用？">
+    我们推荐使用 Vercel 进行部署，因为它提供了最佳的 Next.js 集成体验。但你也可以部署到其他平台，如：
+    - AWS
+    - Google Cloud
+    - Digital Ocean
+    
+    查看[部署文档](/deployment/vercel)获取详细说明。
+  </Accordion>
+</AccordionGroup>
+
+### 故障排除
+
+<AccordionGroup>
+  <Accordion icon="bug" title="如何调试常见问题？">
+    1. 检查控制台错误信息
+    2. 验证环境变量配置
+    3. 确保所有依赖都已正确安装
+    4. 查看[调试指南](/observability/debugging)获取更多帮助
+  </Accordion>
+
+  <Accordion icon="rotate" title="如何更新到最新版本？">
+    1. 检查 [Changelog](https://github.com/haydenbleasel/next-forge/releases) 了解最新更改
+    2. 备份你的项目
+    3. 更新依赖：`pnpm update`
+    4. 测试所有功能
+  </Accordion>
+
+  <Accordion icon="life-ring" title="在哪里获取帮助？">
+    - 查看[文档](/overview)
+    - 加入我们的 [Discord 社区](https://discord.gg/next-forge)
+    - 在 [GitHub](https://github.com/haydenbleasel/next-forge/issues) 上提交问题
+    - 发送邮件到 support@next-forge.dev
+  </Accordion>
+</AccordionGroup>
+
+### 性能和安全
+
+<AccordionGroup>
+  <Accordion icon="gauge" title="如何优化性能？">
+    - 使用内置的性能监控工具
+    - 实施缓存策略
+    - 优化图片和资源
+    - 使用边缘函数
+    查看[性能优化指南](/observability/performance)了解更多。
+  </Accordion>
+
+  <Accordion icon="lock" title="如何确保应用安全？">
+    - 使用环境变量存储敏感信息
+    - 实施适当的认证和授权
+    - 定期更新依赖
+    - 使用 HTTPS
+    - 实施 CORS 策略
+  </Accordion>
+</AccordionGroup>
+
+## 还有问题？
+
+如果你没有找到需要的答案，可以：
+
+1. 搜索[文档](/overview)
+2. 在 [GitHub Discussions](https://github.com/haydenbleasel/next-forge/discussions) 中提问
+3. 加入我们的 [Discord](https://discord.gg/next-forge) 社区
+4. 发送邮件到 support@next-forge.dev
