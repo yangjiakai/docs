@@ -6,7 +6,7 @@ icon: chart-mixed
 
 next-forge 通过 PostHog 提供产品分析功能 — 这是一个集分析、测试、观察和部署新功能于一体的平台。
 
-## 使用方法
+## 使用方法 / Usage
 
 要捕获产品事件，你可以使用 `@repo/analytics` 包中导出的 `analytics` 对象。
 
@@ -53,6 +53,6 @@ graph TD
   C2 -->|Stripe 事件| PostHog
 `} />
 
-## 反向代理
+## 反向代理 / Reverse Proxy
 
 我们还设置了 Next.js 代理，以便反向代理 PostHog 请求，这意味着您的客户端分析事件不会被广告拦截器阻止。

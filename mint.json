@@ -75,6 +75,23 @@
       "pages": ["ai/overview"]
     },
     {
+      "group": "分析工具",
+      "icon": "chart-mixed",
+      "pages": [
+        "analytics/product",
+        "analytics/web"
+      ]
+    },
+    {
+      "group": "身份认证",
+      "icon": "shield-check",
+      "pages": [
+        "authentication/overview",
+        "authentication/authjs",
+        "authentication/better-auth"
+      ]
+    },
+    {
       "group": "API 文档",
       "pages": ["api-reference/introduction"]
     },
@@ -96,23 +113,8 @@
         "design-system/typography"
       ]
     },
-    {
-      "group": "分析工具",
-      "icon": "chart-mixed",
-      "pages": [
-        "analytics/product",
-        "analytics/web"
-      ]
-    },
-    {
-      "group": "身份认证",
-      "icon": "shield-check",
-      "pages": [
-        "authentication/overview",
-        "authentication/authjs",
-        "authentication/better-auth"
-      ]
-    },
+
+
     {
       "group": "商业智能",
       "icon": "chart-bar",

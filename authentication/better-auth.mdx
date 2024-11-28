@@ -1,7 +1,7 @@
 ---
-title: 切换到 Better Auth
+title: 使用 Better Auth
 description: 如何从 Clerk 切换到 Better Auth
-icon: arrows-exchange
+icon: shield-check
 ---
 
 import { Authors } from '/snippets/authors.mdx';
@@ -28,7 +28,7 @@ import { Authors } from '/snippets/authors.mdx';
 
 Better Auth 是一个全面的、开源的 TypeScript 身份验证框架。它被设计为框架无关的，但与 Next.js 集成良好，并提供了许多开箱即用的功能。
 
-## 1. 替换 `auth` 包依赖项
+## 1. 替换 `auth` 包依赖项 / Replace `auth` Package Dependencies
 
 从 `auth` 包中卸载现有的 Clerk 依赖项...
 
@@ -42,7 +42,7 @@ pnpm remove @clerk/nextjs @clerk/themes @clerk/types --filter auth
 pnpm add better-auth --filter auth
 ```
 
-## 2. 更新环境变量
+## 2. 更新环境变量 / Update Environment Variables
 
 使用以下命令生成密钥，并将其添加到每个 Next.js 应用程序（`app`、`web` 和 `api`）的 `.env.local` 文件中：
 
@@ -52,7 +52,7 @@ npx @better-auth/cli secret
 
 这将在 `.env.local` 文件中添加一个 `BETTER_AUTH_SECRET` 环境变量。
 
-## 3. 设置服务器和客户端身份验证
+## 3. 设置服务器和客户端身份验证 / Set Server and Client Authentication
 
 使用以下代码更新 `auth` 包文件：
 
@@ -83,7 +83,7 @@ npx @better-auth/cli secret
 
 在 Better Auth [安装指南](https://www.better-auth.com/docs/installation) 中了解更多信息。
 
-## 5. 更新身份验证组件
+## 5. 更新身份验证组件 / Update Authentication Components
 
 更新 `auth` 包中的 `sign-in.tsx` 和 `sign-up.tsx` 组件，使用 `client` 文件中的 `signIn` 和 `signUp` 函数。
 
@@ -179,7 +179,7 @@ npx @better-auth/cli secret
 
 你可以使用不同的登录方法，如社交提供商、电话、用户名等。在 Better Auth [基本用法](https://better-auth.com/docs/basic-usage) 中了解更多信息。
 
-## 6. 生成 Prisma 模型
+## 6. 生成 Prisma 模型 / Generate Prisma Models
 
 从根文件夹运行以下命令，为 Better Auth 生成 Prisma 模型：
 
@@ -187,7 +187,7 @@ npx @better-auth/cli secret
 npx @better-auth/cli generate --output ./packages/database/prisma/schema.prisma
 ```
 
-## 7. 更新 Provider 文件
+## 7. 更新 Provider 文件 / Update Provider File
 
 Better Auth 没有作为高阶组件的 Provider 概念，所以你可以完全删除它或者只是用一个存根替换它，如下所示：
 
@@ -201,7 +201,7 @@ type AuthProviderProps = {
 export const AuthProvider = ({ children }: AuthProviderProps) => children;
 ```
 
-## 8. 更改中间件
+## 8. 更改中间件 / Change Middleware
 
 将 `auth` 包中的中间件更改为以下内容：
 
@@ -226,7 +226,7 @@ export const authMiddleware = async (request: NextRequest) => {
 }
 ```
 
-## 9. 更新你的应用
+## 9. 更新你的应用 / Update Your Application
 
 从这里开始，你需要将应用中剩余的 Clerk 实现替换为 Better Auth。例如，你可以将 `dashboard` 包中 `page.tsx` 文件中的 `auth` 导入替换为来自 `auth` 包的 `auth` 导入。
 

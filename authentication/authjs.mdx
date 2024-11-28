@@ -1,7 +1,7 @@
 ---
-title: 切换到 Auth.js
+title: 使用 Auth.js
 description: 如何从 Clerk 切换到 Auth.js
-icon: arrows-exchange
+icon: shield-check
 ---
 
 <Warning>
@@ -10,7 +10,7 @@ icon: arrows-exchange
 
 以下是如何从 Clerk 切换到 [Auth.js](https://authjs.dev/) 的步骤。
 
-## 1. 替换依赖项
+## 1. 替换依赖项 / Replace Dependencies
 
 从 `auth` 包中卸载现有的 Clerk 依赖项...
 
@@ -24,7 +24,7 @@ pnpm remove @clerk/nextjs @clerk/themes @clerk/types --filter auth
 pnpm add next-auth@beta --filter auth
 ```
 
-## 2. 生成 Auth.js 密钥
+## 2. 生成 Auth.js 密钥 / Generate Auth.js Secret
 
 Auth.js 需要一个随机值密钥，用于加密令牌和电子邮件验证哈希。在每个相关的应用目录中，使用以下命令生成密钥：
 
@@ -36,7 +36,7 @@ cd apps/api && npx auth secret && cd -
 
 这将自动在每个目录的 `.env.local` 文件中添加一个 `AUTH_SECRET` 环境变量。
 
-## 3. 替换相关文件
+## 3. 替换相关文件 / Replace Files
 
 删除 `auth` 包中现有的 `client.ts` 和 `server.ts` 文件。然后，创建以下文件：
 
@@ -48,7 +48,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 });
 ```
 
-## 4. 更新中间件
+## 4. 更新中间件 / Update Middleware
 
 使用以下内容更新 `auth` 包中的 `middleware.ts` 文件：
 
@@ -58,7 +58,7 @@ import 'server-only';
 export { auth as authMiddleware } from './';
 ```
 
-## 5. 更新身份验证组件
+## 5. 更新身份验证组件 / Update Authentication Components
 
 Auth.js 没有"注册"的概念，所以我们将使用 `signIn` 函数来注册用户。使用相同的内容更新 `auth` 包中的 `sign-in.tsx` 和 `sign-up.tsx` 组件：
 
@@ -96,7 +96,7 @@ export const SignUp = () => (
 
 </CodeGroup>
 
-## 6. 更新 Provider 文件
+## 6. 更新 Provider 文件 / Update Provider
 
 Auth.js 没有作为高阶组件的 Provider 概念，所以你可以完全删除它或者只是用一个存根替换它，如下所示：
 
@@ -110,7 +110,7 @@ type AuthProviderProps = {
 export const AuthProvider = ({ children }: AuthProviderProps) => children;
 ```
 
-## 7. 创建身份验证路由处理程序
+## 7. 创建身份验证路由处理程序 / Create Authentication Route Handlers
 
 在你的 `app` 应用中，创建一个包含以下内容的身份验证路由处理程序文件：
 
@@ -120,7 +120,7 @@ import { handlers } from "@repo/auth"
 export const { GET, POST } = handlers;
 ```
 
-## 8. 更新你的应用
+## 8. 更新你的应用 / Update Your Application
 
 从这里开始，你需要将应用中剩余的 Clerk 实现替换为 Auth.js 引用。这意味着需要替换如下引用：
 
