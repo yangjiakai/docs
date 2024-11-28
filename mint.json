@@ -36,17 +36,17 @@
     {
       "name": "文档",
       "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "url": "https://docs.next-forge.com"
     },
     {
       "name": "社区",
       "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "url": "https://github.com/haydenbleasel/next-forge"
     },
     {
       "name": "博客",
       "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "url": "https://www.next-forge.com"
     }
   ],
   "navigation": [
@@ -63,17 +63,6 @@
         "recommended-libraries/nuqs",
         "recommended-libraries/react-wrap-balancer",
         "recommended-libraries/zustand"
-      ]
-    },
-    {
-      "group": "Essentials",
-      "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
       ]
     },
     {
